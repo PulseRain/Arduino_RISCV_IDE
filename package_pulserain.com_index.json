@@ -12,12 +12,42 @@
        {
           "name": "PulseRain Reindeer",
           "architecture": "Reindeer",
+          "version": "1.0.1",
+          "category": "Contributed",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.0.1.tar.gz",
+          "archiveFileName": "Reindeer_1.0.1.tar.gz",
+          "checksum": "SHA-256:d534dc5f1dd8175ca6bfa866211ae5eebf1515949ebb8166fd598a7c6bbe28b2",
+          "size": "11211",
+          "help": {
+            "online": "http://riscv.us"
+          },
+          "boards": [
+            {"name": "Future Electronics Creative Board (Microsemi SmartFusion2 M2S025)"},
+            {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},
+            {"name": "PulseRain M10 Board (Intel 10M08SAE144C8G)"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "Reindeer_upload"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "Reindeer_compiler"
+            }
+          ]
+        },
+       {
+          "name": "PulseRain Rattlesnake",
+          "architecture": "Rattlesnake",
           "version": "1.0.0",
           "category": "Contributed",
-          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.0.0.tar.gz",
-          "archiveFileName": "Reindeer_1.0.0.tar.gz",
-          "checksum": "SHA-256:1fb04278b93bdb1a8cdbc59b7aec9fe544ba4e3777762d136cd38e8851575ae1",
-          "size": "11038",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Rattlesnake_1.0.0.tar.gz",
+          "archiveFileName": "Rattlesnake_1.0.0.tar.gz",
+          "checksum": "SHA-256:6ce9b27b5b566d6d0cc63083ab0c2598c6af6e59eee215c7526d35f943599ef3",
+          "size": "11217",
           "help": {
             "online": "http://riscv.us"
           },
