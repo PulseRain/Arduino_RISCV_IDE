@@ -1,0 +1,24 @@
+############################################################
+# PulseRain RISC V
+############################################################
+
+Reindeer.name=PulseRain Reindeer
+Reindeer.group=PulseRain
+
+# new items
+Reindeer.platform=RISCV
+Reindeer.build.board=_BOARD_PULSERAIN_REINDEER_
+
+Reindeer.ldscript=Reindeer.ld
+
+Reindeer.upload.protocol=UART
+Reindeer.upload.maximum_size=32768
+Reindeer.upload.maximum_data_size=8192
+Reindeer.upload.speed=115200
+Reindeer.upload.tool=Reindeer_upload
+
+
+Reindeer.build.mcu=FP51
+Reindeer.build.f_cpu=100000000L
+Reindeer.build.core=FP51
+Reindeer.build.variant=FP51_fast
