@@ -2,7 +2,7 @@
 # PulseRain RISCV
 ############################################################
 
-name=PulseRain RISC-V (Reindeer)
+name=PulseRain RISC-V (Rattlesnake)
 version=1.0.0
 
 

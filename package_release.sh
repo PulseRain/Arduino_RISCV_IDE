@@ -18,9 +18,12 @@
 #
 ###############################################################################
 
-Reindeer_version=1.0.0
+Reindeer_version=1.0.1
+Rattlesnake_version=1.0.0
+
 Reindeer_compiler_version=1.0.0
 Reindeer_upload_version=1.0.0
+
 
 
 Reindeer_pkg_name="Reindeer_"
@@ -34,6 +37,21 @@ else
 fi
 sha256_Reindeer=$(sha256sum ./package/$Reindeer_pkg_name | awk '{print $1}')
 size_Reindeer=$(stat -c %s ./package/$Reindeer_pkg_name)
+
+
+Rattlesnake_pkg_name="Rattlesnake_"
+Rattlesnake_pkg_name+=$Rattlesnake_version
+Rattlesnake_pkg_name+=".tar.gz"
+if [ -f "./package/$Rattlesnake_pkg_name" ]
+then
+    echo "=====================> $Rattlesnake_pkg_name already exists!"
+else
+    cd ./PulseRain_RISCV/Rattlesnake;tar zcf ../../package/$Rattlesnake_pkg_name .;cd ../..
+fi
+sha256_Rattlesnake=$(sha256sum ./package/$Rattlesnake_pkg_name | awk '{print $1}')
+size_Rattlesnake=$(stat -c %s ./package/$Rattlesnake_pkg_name)
+
+
 
 Reindeer_compiler_name="Reindeer_compiler_"
 Reindeer_compiler_name+=$Reindeer_compiler_version
@@ -77,6 +95,10 @@ echo '        "online": "http://riscv.us"'
 echo '      },'
 echo '      "websiteURL": "http://riscv.us",'
 echo '      "platforms": ['
+
+#############################################################################
+# Reindeer
+#############################################################################
 echo '       {'
 echo '          "name": "PulseRain Reindeer",'
 echo '          "architecture": "Reindeer",'
@@ -106,7 +128,42 @@ echo "              \"version\": \"$Reindeer_compiler_version\","
 echo '              "name": "Reindeer_compiler"'
 echo '            }'
 echo '          ]'
+echo '        },'       
+
+#############################################################################
+# Rattlesnake
+#############################################################################
+echo '       {'
+echo '          "name": "PulseRain Rattlesnake",'
+echo '          "architecture": "Rattlesnake",'
+echo "          \"version\": \"$Rattlesnake_version\","
+echo '          "category": "Contributed",'
+echo "          \"url\": \"https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/$Rattlesnake_pkg_name\","
+echo "          \"archiveFileName\": \"$Rattlesnake_pkg_name\","
+echo "          \"checksum\": \"SHA-256:$sha256_Rattlesnake\","
+echo "          \"size\": \"$size_Rattlesnake\","
+echo '          "help": {'
+echo '            "online": "http://riscv.us"'
+echo '          },'
+echo '          "boards": ['
+echo '            {"name": "Future Electronics Creative Board (Microsemi SmartFusion2 M2S025)"},'
+echo '            {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},'
+echo '            {"name": "PulseRain M10 Board (Intel 10M08SAE144C8G)"}'
+echo '          ],'
+echo '          "toolsDependencies": ['
+echo '            {'
+echo '              "packager": "PulseRain_RISCV",'
+echo "              \"version\": \"$Reindeer_upload_version\","
+echo '              "name": "Reindeer_upload"'
+echo '            },'
+echo '            {'
+echo '              "packager": "PulseRain_RISCV",'
+echo "              \"version\": \"$Reindeer_compiler_version\","
+echo '              "name": "Reindeer_compiler"'
+echo '            }'
+echo '          ]'
 echo '        }'       
+
 echo '      ],'
 echo '      "tools": ['
 echo '        {'
