@@ -1,6 +1,6 @@
 /*
 ###############################################################################
-# Copyright (c) 2016, PulseRain Technology LLC 
+# Copyright (c) 2018, PulseRain Technology LLC 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License (LGPL) as 
@@ -23,6 +23,7 @@
 
 #include "common_type.h"
 #include "peripherals.h"
+#include "HardwareSerial.h"
 
 //============================================================================================
 // Constant definition
@@ -43,9 +44,18 @@ constexpr uint8_t LOW    = 0;
 #endif
 
 //============================================================================================
+// serial port
+//============================================================================================
+extern HardwareSerial Serial;
+
+//============================================================================================
 // Function prototype
 //============================================================================================
 extern uint32_t micros ();
 extern uint32_t millis ();
+
+
+extern void setup();
+extern void loop();
 
 #endif

@@ -29,10 +29,6 @@
 
 #include "Print.h"
 
-size_t Print::write(uint8_t)
-{
-    return 0;
-}
 // Public Methods //////////////////////////////////////////////////////////////
 
 /* default implementation: may be overridden */
@@ -40,7 +36,7 @@ size_t Print::write(const uint8_t *buffer, size_t size)
 {
   size_t n = 0;
   while (size--) {
-    n += write(*buffer++);
+    n += _write(*buffer++);
   }
   return n;
 }
@@ -57,7 +53,7 @@ size_t Print::print(const char str[])
 
 size_t Print::print(char c)
 {
-  return write(c);
+  return _write(c);
 }
 
 size_t Print::print(unsigned char b, int base)
@@ -78,7 +74,7 @@ size_t Print::print(unsigned int n, int base)
 size_t Print::print(long n, int base)
 {
   if (base == 0) {
-    return write(n);
+    return _write(n);
   } else if (base == 10) {
     if (n < 0) {
       int t = print('-');
@@ -93,7 +89,7 @@ size_t Print::print(long n, int base)
 
 size_t Print::print(unsigned long n, int base)
 {
-  if (base == 0) return write(n);
+  if (base == 0) return _write(n);
   else return printNumber(n, base);
 }
 

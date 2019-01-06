@@ -34,17 +34,17 @@
 class HardwareSerial : public Stream
 {
   protected:
-   
-   
+
+
   public:
     inline HardwareSerial() {};
     void begin(unsigned long baud);
     void end();
     int available(void);
     int peek(void);
-    int read(void);
+    int read(void) override;
     void flush(void);
-    size_t write(uint8_t);
+    size_t _write(uint8_t) override;
     inline size_t write(unsigned long n) { return write((uint8_t)n); }
     inline size_t write(long n) { return write((uint8_t)n); }
     inline size_t write(unsigned int n) { return write((uint8_t)n); }

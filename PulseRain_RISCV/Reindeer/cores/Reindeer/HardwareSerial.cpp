@@ -15,7 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
+
   Modified 23 November 2006 by David A. Mellis
   Modified 28 September 2010 by Mark Sproul
   Modified 14 August 2012 by Alarus
@@ -35,12 +35,12 @@
 
 void HardwareSerial::begin(unsigned long baud)
 {
-    
+
 }
 
 void HardwareSerial::end()
 {
-  
+
 }
 
 int HardwareSerial::available(void)
@@ -55,9 +55,9 @@ int HardwareSerial::peek(void)
 
 int HardwareSerial::read(void)
 {
-    
+
   return 0;
-  
+
 }
 
 void HardwareSerial::flush()
@@ -65,12 +65,12 @@ void HardwareSerial::flush()
 
 }
 
-size_t HardwareSerial::write(uint8_t c)
+size_t HardwareSerial::_write(uint8_t c)
 {
     while ((*REG_UART_TX) & 0x80000000);
     (*REG_UART_TX) = c;
-  
-  
+
+
     return 1;
 }
 

@@ -45,16 +45,12 @@ class Stream : public Print
     int peekNextDigit(); // returns the next numeric digit in the stream or -1 if timeout
 
   public:
-    //virtual int available() = 0;
+    virtual int available() = 0;
     virtual int read() = 0;
-    //virtual int peek() = 0;
-    //virtual void flush() = 0;
+    virtual int peek() = 0;
+    virtual void flush() = 0;
 
-    int available() {return 0;};
-    //int read() {return 0;};
-    int peek() {return 0;};
-    void flush() { };
-    
+
     Stream() {_timeout=1000;}
 
 // parsing methods
