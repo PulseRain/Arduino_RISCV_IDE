@@ -35,15 +35,27 @@ UPDuinoV2.upload.tool=Reindeer_upload
 
 
 M10.name=PulseRain Reindeer - PulseRain M10 Board (Intel 10M08SAE144C8G)
-M10.compiler.ld.extra_flags=--section-start=.init=0x80000000
-M10.build.variant=generic
-M10.build.board=_BOARD_PULSERAIN_REINDEER_M10_
-M10.build.sdata.size=65536
+#M10.group=PulseRain RISC-V (Reindeer)
 
-M10.ldscript=Reindeer.ld
+# new items
+M10.platform=Reindeer
+M10.build.board=_BOARD_PULSERAIN_REINDEER_M10_
+
+
+M10.build.extra_flags = -march=rv32i -mabi=ilp32
+M10.compiler.c.extra_flags= 
+M10.compiler.cpp.extra_flags= 
+M10.ld.extra_flags = 
+
 
 M10.upload.protocol=UART
 M10.upload.maximum_size=32768
 M10.upload.maximum_data_size=8192
-M10.upload.speed=115200
+M10.upload.speed=921600
 M10.upload.tool=Reindeer_upload
+
+
+
+M10.build.mcu=Reindeer
+M10.build.core=Reindeer
+M10.build.variant=generic
