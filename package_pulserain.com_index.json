@@ -36,6 +36,11 @@
               "packager": "PulseRain_RISCV",
               "version": "1.0.0",
               "name": "Reindeer_compiler"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "hex_total_size"
             }
           ]
         },
@@ -94,6 +99,19 @@
               "archiveFileName": "Reindeer_compiler_1.0.0.tar.gz",
               "checksum": "SHA-256:216c9e08a54b0df3895dad95b199505f161ea56422eb246e56892a6f0043f3b4",
               "size": "100370594"
+            }
+          ]
+        },
+        {
+          "version": "1.0.0",
+          "name": "hex_total_size",
+          "systems": [
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/hex_total_size_1.0.0.tar.gz",
+              "archiveFileName": "hex_total_size_1.0.0.tar.gz",
+              "checksum": "SHA-256:275fd6f969b470e06181e86e0725d47eca262c01c5a917c527f004d50a9926fd",
+              "size": "7007795"
             }
           ]
         }
