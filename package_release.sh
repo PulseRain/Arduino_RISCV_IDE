@@ -24,6 +24,8 @@ Rattlesnake_version=1.0.0
 Reindeer_compiler_version=1.0.0
 Reindeer_upload_version=1.0.0
 
+hex_total_size_version=1.0.0
+
 
 
 Reindeer_pkg_name="Reindeer_"
@@ -80,6 +82,22 @@ fi
 sha256_Reindeer_upload=$(sha256sum ./package/$Reindeer_upload_name | awk '{print $1}')
 size_Reindeer_upload=$(stat -c %s ./package/$Reindeer_upload_name)
 
+
+hex_total_size_name="hex_total_size_"
+hex_total_size_name+=$hex_total_size_version
+hex_total_size_name+=".tar.gz"
+#echo "hex_total_size_name = $hex_total_size_name"
+if [ -f "./package/$hex_total_size_name" ]
+then
+    echo "=====================> $hex_total_size_name already exists!"
+else
+    cd ./hex_total_size;tar zcf ../package/$hex_total_size_name .;cd ..
+fi
+sha256_hex_total_size=$(sha256sum ./package/$hex_total_size_name | awk '{print $1}')
+size_hex_total_size=$(stat -c %s ./package/$hex_total_size_name)
+
+
+
 echo "                     "
 #echo "=============================================================================="
 #echo "    package_Reindeer_index.json"
@@ -122,11 +140,19 @@ echo '              "packager": "PulseRain_RISCV",'
 echo "              \"version\": \"$Reindeer_upload_version\","
 echo '              "name": "Reindeer_upload"'
 echo '            },'
+
 echo '            {'
 echo '              "packager": "PulseRain_RISCV",'
 echo "              \"version\": \"$Reindeer_compiler_version\","
 echo '              "name": "Reindeer_compiler"'
+echo '            },'
+
+echo '            {'
+echo '              "packager": "PulseRain_RISCV",'
+echo "              \"version\": \"$hex_total_size_version\","
+echo '              "name": "hex_total_size"'
 echo '            }'
+
 echo '          ]'
 echo '        },'       
 
@@ -165,6 +191,12 @@ echo '          ]'
 echo '        }'       
 
 echo '      ],'
+
+
+#############################################################################
+# Tools
+#############################################################################
+
 echo '      "tools": ['
 echo '        {'
 echo "          \"version\": \"$Reindeer_upload_version\","
@@ -179,6 +211,7 @@ echo "              \"size\": \"$size_Reindeer_upload\""
 echo '            }'
 echo '          ]'
 echo '        },'
+
 echo '        {'
 echo "          \"version\": \"$Reindeer_compiler_version\","
 echo '          "name": "Reindeer_compiler",'
@@ -191,7 +224,23 @@ echo "              \"checksum\": \"SHA-256:$sha256_Reindeer_compiler\","
 echo "              \"size\": \"$size_Reindeer_compiler\""
 echo '            }'
 echo '          ]'        
+echo '        },'
+
+echo '        {'
+echo "          \"version\": \"$hex_total_size_version\","
+echo '          "name": "hex_total_size",'
+echo '          "systems": ['
+echo '            {'
+echo '              "host": "i686-mingw32",'
+echo "              \"url\": \"https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/$hex_total_size_name\","
+echo "              \"archiveFileName\": \"$hex_total_size_name\","
+echo "              \"checksum\": \"SHA-256:$sha256_hex_total_size\","
+echo "              \"size\": \"$size_hex_total_size\""
+echo '            }'
+echo '          ]'        
 echo '        }'
+
+
 echo '      ]'
 echo '    }'
 echo '  ]'
