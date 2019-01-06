@@ -12,12 +12,12 @@
        {
           "name": "PulseRain Reindeer",
           "architecture": "Reindeer",
-          "version": "1.0.1",
+          "version": "1.0.2",
           "category": "Contributed",
-          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.0.1.tar.gz",
-          "archiveFileName": "Reindeer_1.0.1.tar.gz",
-          "checksum": "SHA-256:d534dc5f1dd8175ca6bfa866211ae5eebf1515949ebb8166fd598a7c6bbe28b2",
-          "size": "11211",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.0.2.tar.gz",
+          "archiveFileName": "Reindeer_1.0.2.tar.gz",
+          "checksum": "SHA-256:3c024295a1262ba9a9db1fd62302c89126f02bd8d93bead50ea9bab861c31187",
+          "size": "14438",
           "help": {
             "online": "http://riscv.us"
           },
