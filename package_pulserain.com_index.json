@@ -29,7 +29,7 @@
           "toolsDependencies": [
             {
               "packager": "PulseRain_RISCV",
-              "version": "1.0.0",
+              "version": "1.0.1",
               "name": "Reindeer_upload"
             },
             {
@@ -64,7 +64,7 @@
           "toolsDependencies": [
             {
               "packager": "PulseRain_RISCV",
-              "version": "1.0.0",
+              "version": "1.0.1",
               "name": "Reindeer_upload"
             },
             {
@@ -77,15 +77,15 @@
       ],
       "tools": [
         {
-          "version": "1.0.0",
+          "version": "1.0.1",
           "name": "Reindeer_upload",
           "systems": [
             {
               "host": "i686-mingw32",
-              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_upload_1.0.0.tar.gz",
-              "archiveFileName": "Reindeer_upload_1.0.0.tar.gz",
-              "checksum": "SHA-256:459d003e24ad05309a58780619bc51e1dc4c8b46ababdfa0282dd4bf73982a70",
-              "size": "7066670"
+              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_upload_1.0.1.tar.gz",
+              "archiveFileName": "Reindeer_upload_1.0.1.tar.gz",
+              "checksum": "SHA-256:14b35b30505a03bc9e1eab211b253cc821794f211410cd4a1e7012b2dd65406e",
+              "size": "7061025"
             }
           ]
         },
