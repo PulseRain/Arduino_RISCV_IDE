@@ -12,12 +12,12 @@
        {
           "name": "PulseRain Reindeer",
           "architecture": "Reindeer",
-          "version": "1.0.2",
+          "version": "1.0.3",
           "category": "Contributed",
-          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.0.2.tar.gz",
-          "archiveFileName": "Reindeer_1.0.2.tar.gz",
-          "checksum": "SHA-256:3c024295a1262ba9a9db1fd62302c89126f02bd8d93bead50ea9bab861c31187",
-          "size": "14438",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.0.3.tar.gz",
+          "archiveFileName": "Reindeer_1.0.3.tar.gz",
+          "checksum": "SHA-256:650f032a815b0e0f789ec81e6d39c05036bc7b7ec93456d716afab6e94403a63",
+          "size": "14248",
           "help": {
             "online": "http://riscv.us"
           },
@@ -29,7 +29,7 @@
           "toolsDependencies": [
             {
               "packager": "PulseRain_RISCV",
-              "version": "1.0.1",
+              "version": "1.0.2",
               "name": "Reindeer_upload"
             },
             {
@@ -64,7 +64,7 @@
           "toolsDependencies": [
             {
               "packager": "PulseRain_RISCV",
-              "version": "1.0.1",
+              "version": "1.0.2",
               "name": "Reindeer_upload"
             },
             {
@@ -77,15 +77,15 @@
       ],
       "tools": [
         {
-          "version": "1.0.1",
+          "version": "1.0.2",
           "name": "Reindeer_upload",
           "systems": [
             {
               "host": "i686-mingw32",
-              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_upload_1.0.1.tar.gz",
-              "archiveFileName": "Reindeer_upload_1.0.1.tar.gz",
-              "checksum": "SHA-256:14b35b30505a03bc9e1eab211b253cc821794f211410cd4a1e7012b2dd65406e",
-              "size": "7061025"
+              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_upload_1.0.2.tar.gz",
+              "archiveFileName": "Reindeer_upload_1.0.2.tar.gz",
+              "checksum": "SHA-256:ea30c0f1ca21e845625cb022fee94266e04444c97d258f6d07b3d056dcd8c367",
+              "size": "7066918"
             }
           ]
         },
