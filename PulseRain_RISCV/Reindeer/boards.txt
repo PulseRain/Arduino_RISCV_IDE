@@ -48,10 +48,8 @@ M10.compiler.cpp.extra_flags=
 M10.ld.extra_flags = 
 
 
-M10.upload.protocol=UART
 M10.upload.maximum_size=32768
-M10.upload.maximum_data_size=8192
-M10.upload.speed=921600
+M10.upload.speed=115200
 M10.upload.tool=Reindeer_upload
 
 

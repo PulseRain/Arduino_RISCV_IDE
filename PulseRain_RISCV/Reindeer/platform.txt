@@ -3,12 +3,11 @@
 ############################################################
 
 name=PulseRain RISC-V (Reindeer)
-version=1.0.0
+version=1.0.3
 
 
 compiler.path           = {runtime.tools.Reindeer_compiler.path}/RISCV_Embedded_GCC/bin/
 compiler.define= -D__GXX_EXPERIMENTAL_CXX0X__ -DIDE=Arduino "-I{compiler.path}../riscv-none-embed/include"
-
 
 build.extra_flags       =
 build.flags             = --specs=nosys.specs -Os -fno-builtin-printf -fdata-sections -ffunction-sections -fno-exceptions -fno-unwind-tables -fno-rtti
@@ -33,7 +32,6 @@ compiler.S.flags=--specs=nosys.specs -Os -fno-builtin-printf -c
 compiler.S.cmd=riscv-none-embed-as
 
 
-
 compiler.ar.cmd=riscv-none-embed-ar
 compiler.ar.flags=rcs
 
@@ -44,12 +42,11 @@ compiler.elf2hex.cmd=riscv-none-embed-objcopy
 
 compiler.dump.cmd = riscv-none-embed-objdump
 
-compiler.size.cmd=mustang_size
+compiler.size.path = {runtime.tools.hex_total_size.path}
+compiler.size.cmd = hex_total_size
 
 compiler.cpudef=-mprocessor=
-compiler.upload.cmd=FP51_upload
-compiler.includepath={0}/hardware/M10/FP51/cores/FP51
-compiler.upload.flags=
+compiler.upload.cmd=Reindeer_upload
 library.core.path=./hardware/M10/FP51/cores/FP51
 library.path=./hardware/M10/FP51/cores/FP51
 
@@ -94,15 +91,10 @@ recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf
 recipe.output.tmp_file={build.project_name}.hex
 recipe.output.save_file={build.project_name}.{build.variant}.hex
 
-recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
-recipe.size.regex=^(?:\.text|\.data|\.bootloader)\s+([0-9]+).*
-recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+([0-9]+).*
-recipe.size.regex.eeprom=^(?:\.eeprom)\s+([0-9]+).*
 
 
-recipe.size.pattern="{compiler.path}{compiler.size.cmd}"  "{build.path}/{build.project_name}.map"
-recipe.size.regex=^(?:\.reset|\.image_ptr_table|\.app_excpt|\.vector\S*|\.startup|\.init|\.fini|\.ctors|\.dtors|\.header_info|\.dinit|\.text\S*|\.rodata\S*|\.data)\s+([0-9]+).*
-recipe.size.regex.data=^(?:\.ram_exchange_data|\.dbg_data|\.sdata|\.sbss|\.data\S*|\.stack|\.bss|\.comment.__use_force_isr_install|\.eh_frame|\.jcr)\s+([0-9]+).*
+recipe.size.pattern="{compiler.size.path}/{compiler.size.cmd}"  "{build.path}/{build.project_name}.hex"
+recipe.size.regex=Total\s+([0-9]+).*
 
 preproc.includes.flags=-w -x c++ -M -MG -MP
 recipe.preproc.includes="{compiler.path}{compiler.cpp.cmd}"  {compiler.cpp.flags} {preproc.includes.flags} -DARDUINO={runtime.ide.version} -D{build.board} -DARDUINO_ARCH_{build.arch} {compiler.define}  -I{build.path}/sketch {includes} "{source_file}"
@@ -114,13 +106,15 @@ recipe.preproc.macros="{compiler.path}{compiler.c.cmd}" {preproc.macros.flags} -
 
  
 ###############################################################################
-# M10 loader
+# up loader
 ###############################################################################
-upload.tool=M10_upload
-tools.M10_upload.cmd=FP51_upload
-tools.M10_upload.cmd.windows=FP51_upload
-tools.M10_upload.path={runtime.tools.M10_upload.path}
 
-tools.M10_upload.upload.params.verbose=
-tools.M10_upload.upload.params.quiet=
-tools.M10_upload.upload.pattern="{path}/{cmd}" {upload.verbose} {upload.verify} -p{build.mcu} -c{upload.protocol} -P{serial.port} -b{upload.speed} "-U{build.path}/{build.project_name}.eep"
+tools.Reindeer_upload.cmd=reindeer_config
+tools.Reindeer_upload.path={runtime.tools.Reindeer_upload.path}
+
+tools.Reindeer_upload.upload.params.verbose=
+tools.Reindeer_upload.upload.params.quiet=
+tools.Reindeer_upload.upload.protocol=UART
+
+
+tools.Reindeer_upload.upload.pattern="{path}/{cmd}" --reset --run --port={serial.port} --baud={upload.speed} "--image={build.path}/{build.project_name}.hex"
