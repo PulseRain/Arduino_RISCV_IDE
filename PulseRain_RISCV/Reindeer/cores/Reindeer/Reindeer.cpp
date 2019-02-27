@@ -74,9 +74,9 @@ uint32_t millis ()
 } // End of millis()
 
 
-void delay (uint32 ms)
+void delay (uint32_t ms)
 {
-    uint32 future = millis() + ms;
+    uint32_t future = millis() + ms;
     
     while (future > millis());
         
