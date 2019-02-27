@@ -32,8 +32,8 @@ volatile uint32_t* const REG_UART_TX = (uint32_t*) 0x20000010;
 //============================================================================================
 // MTIME 
 //============================================================================================
-volatile uint32_t* const REG_MTIME_LOW  = (uint32_t*) 0x20000008;
-volatile uint32_t* const REG_MTIME_HIGH = (uint32_t*) 0x2000000C;
+volatile uint32_t* const REG_MTIME_LOW  = (uint32_t*) 0x20000000;
+volatile uint32_t* const REG_MTIME_HIGH = (uint32_t*) 0x20000004;
 
 
 
