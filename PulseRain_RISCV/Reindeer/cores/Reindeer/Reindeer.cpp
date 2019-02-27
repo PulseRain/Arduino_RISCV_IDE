@@ -74,6 +74,13 @@ uint32_t millis ()
 } // End of millis()
 
 
+void delay (uint32 ms)
+{
+    uint32 future = millis() + ms;
+    
+    while (future > millis());
+        
+}
 
 
 static void _putchar(char n)
