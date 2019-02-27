@@ -16,8 +16,8 @@
           "category": "Contributed",
           "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.1.0.tar.gz",
           "archiveFileName": "Reindeer_1.1.0.tar.gz",
-          "checksum": "SHA-256:36f5fbfb07d8d62a06b1acf08bf225cf2428263b731480d9f3246aaf0fecde1b",
-          "size": "14248",
+          "checksum": "SHA-256:a6a82f4e398f0b0c864f51dfa8e1a204e89e40cc86f147ebb460c193aad856ee",
+          "size": "14136",
           "help": {
             "online": "http://riscv.us"
           },

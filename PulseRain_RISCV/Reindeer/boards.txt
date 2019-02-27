@@ -3,20 +3,6 @@
 ############################################################
 
 
-Creative.name=PulseRain Reindeer - Future Electronics Creative Board (Microsemi SmartFusion2 M2S025)
-Creative.compiler.ld.extra_flags=--section-start=.init=0x80000000
-Creative.build.variant=generic
-Creative.build.board=_BOARD_PULSERAIN_REINDEER_CREATIVE_
-Creative.build.sdata.size=65536
-
-Creative.ldscript=Reindeer.ld
-
-Creative.upload.protocol=UART
-Creative.upload.maximum_size=32768
-Creative.upload.maximum_data_size=8192
-Creative.upload.speed=115200
-Creative.upload.tool=Reindeer_upload
-
 UPDuinoV2.name=PulseRain Reindeer - Gnarly Grey UPDuinoV2 Board (Lattice UP5K)
 UPDuinoV2.compiler.ld.extra_flags=--section-start=.init=0x80000000
 UPDuinoV2.build.variant=generic
@@ -33,27 +19,22 @@ UPDuinoV2.upload.tool=Reindeer_upload
 
 
 
+STEP.name=STEP CYC10 Board (Intel 10CL016YU256C8G)
 
-M10.name=PulseRain Reindeer - PulseRain M10 Board (Intel 10M08SAE144C8G)
-#M10.group=PulseRain RISC-V (Reindeer)
+STEP.platform=Reindeer
+STEP.build.board=_BOARD_STEP_CYC10_
 
-# new items
-M10.platform=Reindeer
-M10.build.board=_BOARD_PULSERAIN_REINDEER_M10_
-
-
-M10.build.extra_flags = -march=rv32i -mabi=ilp32
-M10.compiler.c.extra_flags= 
-M10.compiler.cpp.extra_flags= 
-M10.ld.extra_flags = 
+STEP.build.extra_flags = -march=rv32i -mabi=ilp32
+STEP.compiler.c.extra_flags= 
+STEP.compiler.cpp.extra_flags= 
+STEP.ld.extra_flags = 
 
 
-M10.upload.maximum_size=32768
-M10.upload.speed=115200
-M10.upload.tool=Reindeer_upload
+STEP.upload.maximum_size=32768
+STEP.upload.speed=115200
+STEP.upload.tool=Reindeer_upload
 
+STEP.build.mcu=Reindeer
+STEP.build.core=Reindeer
+STEP.build.variant=generic
 
-
-M10.build.mcu=Reindeer
-M10.build.core=Reindeer
-M10.build.variant=generic
