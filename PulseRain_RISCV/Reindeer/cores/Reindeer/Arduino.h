@@ -58,6 +58,6 @@ extern uint32_t millis ();
 extern void setup();
 extern void loop();
 
-extern void delay (uint32 ms);
+extern void delay (uint32_t ms);
 
 #endif

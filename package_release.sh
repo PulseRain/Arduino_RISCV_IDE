@@ -18,7 +18,7 @@
 #
 ###############################################################################
 
-Reindeer_version=1.1.2
+Reindeer_version=1.1.3
 Rattlesnake_version=1.0.0
 
 Reindeer_compiler_version=1.0.0
