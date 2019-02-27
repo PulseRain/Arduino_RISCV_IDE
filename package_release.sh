@@ -18,11 +18,11 @@
 #
 ###############################################################################
 
-Reindeer_version=1.0.3
+Reindeer_version=1.1.0
 Rattlesnake_version=1.0.0
 
 Reindeer_compiler_version=1.0.0
-Reindeer_upload_version=1.0.2
+Reindeer_upload_version=2.0.0
 
 hex_total_size_version=1.0.0
 
@@ -130,9 +130,8 @@ echo '          "help": {'
 echo '            "online": "http://riscv.us"'
 echo '          },'
 echo '          "boards": ['
-echo '            {"name": "Future Electronics Creative Board (Microsemi SmartFusion2 M2S025)"},'
 echo '            {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},'
-echo '            {"name": "PulseRain M10 Board (Intel 10M08SAE144C8G)"}'
+echo '            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"}'
 echo '          ],'
 echo '          "toolsDependencies": ['
 echo '            {'
@@ -174,6 +173,7 @@ echo '          },'
 echo '          "boards": ['
 echo '            {"name": "Future Electronics Creative Board (Microsemi SmartFusion2 M2S025)"},'
 echo '            {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},'
+echo '            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"},'
 echo '            {"name": "PulseRain M10 Board (Intel 10M08SAE144C8G)"}'
 echo '          ],'
 echo '          "toolsDependencies": ['

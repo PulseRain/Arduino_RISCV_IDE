@@ -12,24 +12,23 @@
        {
           "name": "PulseRain Reindeer",
           "architecture": "Reindeer",
-          "version": "1.0.3",
+          "version": "1.1.0",
           "category": "Contributed",
-          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.0.3.tar.gz",
-          "archiveFileName": "Reindeer_1.0.3.tar.gz",
-          "checksum": "SHA-256:650f032a815b0e0f789ec81e6d39c05036bc7b7ec93456d716afab6e94403a63",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.1.0.tar.gz",
+          "archiveFileName": "Reindeer_1.1.0.tar.gz",
+          "checksum": "SHA-256:36f5fbfb07d8d62a06b1acf08bf225cf2428263b731480d9f3246aaf0fecde1b",
           "size": "14248",
           "help": {
             "online": "http://riscv.us"
           },
           "boards": [
-            {"name": "Future Electronics Creative Board (Microsemi SmartFusion2 M2S025)"},
             {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},
-            {"name": "PulseRain M10 Board (Intel 10M08SAE144C8G)"}
+            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"}
           ],
           "toolsDependencies": [
             {
               "packager": "PulseRain_RISCV",
-              "version": "1.0.2",
+              "version": "2.0.0",
               "name": "Reindeer_upload"
             },
             {
@@ -59,12 +58,13 @@
           "boards": [
             {"name": "Future Electronics Creative Board (Microsemi SmartFusion2 M2S025)"},
             {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},
+            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"},
             {"name": "PulseRain M10 Board (Intel 10M08SAE144C8G)"}
           ],
           "toolsDependencies": [
             {
               "packager": "PulseRain_RISCV",
-              "version": "1.0.2",
+              "version": "2.0.0",
               "name": "Reindeer_upload"
             },
             {
@@ -77,15 +77,15 @@
       ],
       "tools": [
         {
-          "version": "1.0.2",
+          "version": "2.0.0",
           "name": "Reindeer_upload",
           "systems": [
             {
               "host": "i686-mingw32",
-              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_upload_1.0.2.tar.gz",
-              "archiveFileName": "Reindeer_upload_1.0.2.tar.gz",
-              "checksum": "SHA-256:ea30c0f1ca21e845625cb022fee94266e04444c97d258f6d07b3d056dcd8c367",
-              "size": "7066918"
+              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_upload_2.0.0.tar.gz",
+              "archiveFileName": "Reindeer_upload_2.0.0.tar.gz",
+              "checksum": "SHA-256:226d4c529ea6b3e3ef11581594159c234d5884930e8f2faf164f180ca3f569f6",
+              "size": "7065477"
             }
           ]
         },
