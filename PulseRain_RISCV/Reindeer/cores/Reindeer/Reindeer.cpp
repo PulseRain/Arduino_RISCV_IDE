@@ -76,9 +76,19 @@ uint32_t millis ()
 
 void delay (uint32_t ms)
 {
-    uint32_t future = millis() + ms;
+    uint32_t low, high;
+    uint64_t finish_time, current_time;
     
-    while (future > millis());
+    low  = (*REG_MTIME_LOW);
+    high = (*REG_MTIME_HIGH);
+    finish_time = ((uint64_t)high << 32) + (uint64_t)(low) + (uint64_t)ms*1000;
+    
+    do {
+        low  = (*REG_MTIME_LOW);
+        high = (*REG_MTIME_HIGH);
+        
+        current_time = ((uint64_t)high << 32) + (uint64_t)(low);
+    } while (finish_time > current_time);
         
 }
 
