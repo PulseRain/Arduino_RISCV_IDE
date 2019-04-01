@@ -18,11 +18,11 @@
 #
 ###############################################################################
 
-Reindeer_version=1.1.4
+Reindeer_version=1.1.5
 Rattlesnake_version=1.0.0
 
 Reindeer_compiler_version=1.0.0
-Reindeer_upload_version=2.0.0
+Reindeer_upload_version=2.1.0
 
 hex_total_size_version=1.0.0
 

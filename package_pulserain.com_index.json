@@ -9,6 +9,40 @@
       },
       "websiteURL": "http://riscv.us",
       "platforms": [
+        {
+          "name": "PulseRain Reindeer",
+          "architecture": "Reindeer",
+          "version": "1.1.5",
+          "category": "Contributed",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.1.5.tar.gz",
+          "archiveFileName": "Reindeer_1.1.5.tar.gz",
+          "checksum": "SHA-256:e897bcb3fe0da4fb8396563d5a5e749643dfebfac67b5de7ceec46e4ced1726c",
+          "size": "14269",
+          "help": {
+            "online": "http://riscv.us"
+          },
+          "boards": [
+            {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},
+            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "2.1.0",
+              "name": "Reindeer_upload"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "Reindeer_compiler"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "hex_total_size"
+            }
+          ]
+       },
        {
           "name": "PulseRain Reindeer",
           "architecture": "Reindeer",
@@ -76,6 +110,19 @@
         }
       ],
       "tools": [
+        {
+          "version": "2.1.0",
+          "name": "Reindeer_upload",
+          "systems": [
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_upload_2.1.0.tar.gz",
+              "archiveFileName": "Reindeer_upload_2.1.0.tar.gz",
+              "checksum": "SHA-256:4eafa097f0c6818db3f3355ab324268c0876b72f35a78a6881bfe71cf55ef316",
+              "size": "6035446"
+            }
+          ]
+        },
         {
           "version": "2.0.0",
           "name": "Reindeer_upload",
