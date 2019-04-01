@@ -30,8 +30,8 @@ STEP.compiler.cpp.extra_flags=
 STEP.ld.extra_flags = 
 
 
-STEP.upload.maximum_size=32768
-STEP.upload.speed=115200
+STEP.upload.maximum_size=8388608
+STEP.upload.speed=921600
 STEP.upload.tool=Reindeer_upload
 
 STEP.build.mcu=Reindeer
