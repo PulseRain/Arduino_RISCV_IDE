@@ -9,6 +9,41 @@
       },
       "websiteURL": "http://riscv.us",
       "platforms": [
+       {
+          "name": "PulseRain Reindeer",
+          "architecture": "Reindeer",
+          "version": "1.2.0",
+          "category": "Contributed",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.2.0.tar.gz",
+          "archiveFileName": "Reindeer_1.2.0.tar.gz",
+          "checksum": "SHA-256:8ebf7e05ae25a37c10bf829ac74f99044b9cb0598c99803ce90bee1238935744",
+          "size": "14268",
+          "help": {
+            "online": "http://riscv.us"
+          },
+          "boards": [
+            {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},
+            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"},
+            {"name": "Efinix Trion T20 BGA256 Development Kit"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "2.1.0",
+              "name": "Reindeer_upload"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "Reindeer_compiler"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "hex_total_size"
+            }
+          ]
+        },
         {
           "name": "PulseRain Reindeer",
           "architecture": "Reindeer",
@@ -42,8 +77,8 @@
               "name": "hex_total_size"
             }
           ]
-       },
-       {
+        },
+        {
           "name": "PulseRain Reindeer",
           "architecture": "Reindeer",
           "version": "1.1.4",
@@ -77,7 +112,7 @@
             }
           ]
         },
-       {
+        {
           "name": "PulseRain Rattlesnake",
           "architecture": "Rattlesnake",
           "version": "1.0.0",
