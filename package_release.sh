@@ -18,7 +18,7 @@
 #
 ###############################################################################
 
-Reindeer_version=1.1.5
+Reindeer_version=1.2.0
 Rattlesnake_version=1.0.0
 
 Reindeer_compiler_version=1.0.0
@@ -131,7 +131,8 @@ echo '            "online": "http://riscv.us"'
 echo '          },'
 echo '          "boards": ['
 echo '            {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},'
-echo '            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"}'
+echo '            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"},'
+echo '            {"name": "Efinix Trion T20 BGA256 Development Kit"}'
 echo '          ],'
 echo '          "toolsDependencies": ['
 echo '            {'

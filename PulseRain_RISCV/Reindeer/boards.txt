@@ -38,3 +38,23 @@ STEP.build.mcu=Reindeer
 STEP.build.core=Reindeer
 STEP.build.variant=generic
 
+
+TRION.name=Efinix Trion T20 BGA256 Development Kit
+
+TRION.platform=Reindeer
+TRION.build.board=_BOARD_TRION_T20_
+
+TRION.build.extra_flags = -march=rv32i -mabi=ilp32
+TRION.compiler.c.extra_flags= 
+TRION.compiler.cpp.extra_flags= 
+TRION.ld.extra_flags = 
+
+
+TRION.upload.maximum_size=49152
+TRION.upload.speed=921600
+TRION.upload.tool=Reindeer_upload
+
+TRION.build.mcu=Reindeer
+TRION.build.core=Reindeer
+TRION.build.variant=generic
+
