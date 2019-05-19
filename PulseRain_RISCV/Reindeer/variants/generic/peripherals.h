@@ -40,7 +40,7 @@ volatile uint32_t* const REG_UART_TX = (uint32_t*) 0x20000010;
 //============================================================================================
 // GPIO 
 //============================================================================================
-volatile uint32_t* const REG_GPIO = (uint32_t*)0x20000018;
+volatile uint8_t* const REG_GPIO = (uint8_t*)0x20000018;
 
 #define GPIO_P0  (REG_GPIO[0])
 #define GPIO_P1  (REG_GPIO[1])
