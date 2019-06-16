@@ -1,0 +1,79 @@
+mainmenu "Sketch Configuration"
+
+config HAVE_DOT_CONFIG
+	bool
+	default y
+
+
+
+#=============================================================================
+#	Sketch Version 
+#=============================================================================
+
+menu "About"
+
+config VENDOR_NAME
+	string "Vendor Name"
+	default "PulseRain Technology, LLC"
+	help
+		Name of the Vendor
+
+
+config VMAJOR_STR
+	string "Major Version"
+	default "01"
+	help
+	  Major Version for the firmware
+
+config VMINOR_STR
+	string "Minor Version"
+	default "00"
+	help
+	  Minor Version for the firmware
+
+config REVISION_STR
+	string "Revision"
+	default "01"
+	help
+	  Revision for the firmware
+
+endmenu
+
+
+
+#=============================================================================
+#	Tools Setup
+#=============================================================================
+
+menu "Tools Setup"
+
+config CROSS_COMPILER_PREFIX
+	string "Cross Compiler prefix"
+	default "riscv-none-embed-"
+	help
+	  Cross compiler pre-fix
+
+endmenu
+
+#=============================================================================
+#	Config the sketch 
+#=============================================================================
+
+menu "Sketch Configuration"
+
+config PRINT_INTERVAL
+	int "Print Interval"
+	default 1000
+	help
+		Print Interval
+
+comment "===================================="
+
+config LED_START_PATTERN
+	hex "LED Start Pattern"
+	default AB
+	help
+		LED Start Pattern
+
+endmenu
+
