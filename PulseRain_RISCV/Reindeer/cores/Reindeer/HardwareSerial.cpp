@@ -35,7 +35,7 @@
 
 void HardwareSerial::begin(unsigned long baud)
 {
-
+    *REG_UART_RX = REG_UART_RX_FIFO_SYNC_RESET_BIT;
 }
 
 void HardwareSerial::end()
@@ -45,7 +45,11 @@ void HardwareSerial::end()
 
 int HardwareSerial::available(void)
 {
-  return 0;
+    if ((*REG_UART_RX) & REG_UART_RX_FIFO_NOT_EMPTY_BIT) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 int HardwareSerial::peek(void)
@@ -55,8 +59,9 @@ int HardwareSerial::peek(void)
 
 int HardwareSerial::read(void)
 {
-
-  return 0;
+    *REG_UART_RX = REG_UART_RX_READ_REQ_BIT;
+    
+    return ((*REG_UART_RX) & 0xFF);
 
 }
 
@@ -65,10 +70,16 @@ void HardwareSerial::flush()
 
 }
 
+
+
 size_t HardwareSerial::_write(uint8_t c)
 {
+ 
+  
     while ((*REG_UART_TX) & 0x80000000);
+   
     (*REG_UART_TX) = c;
+   
 
 
     return 1;

@@ -21,9 +21,24 @@
 #ifndef _ARDUINO_H
 #define _ARDUINO_H
 
+#include "encoding.h"
 #include "common_type.h"
 #include "peripherals.h"
 #include "HardwareSerial.h"
+
+//============================================================================================
+// Timer Resolution in Hz
+//============================================================================================
+constexpr uint32_t TIMER_RESOLUTION = 1000000;
+
+//============================================================================================
+// csr
+//============================================================================================
+#define mstatus   0x300
+#define mie       0x304
+#define mtvec     0x305
+#define mip       0x344
+#define mepc      0x341
 
 //============================================================================================
 // Constant definition
@@ -34,6 +49,12 @@ constexpr uint8_t OUTPUT = 1;
 
 constexpr uint8_t HIGH   = 1;
 constexpr uint8_t LOW    = 0;
+
+constexpr uint8_t CHANGE  = 2;
+constexpr uint8_t RISING  = 3;
+constexpr uint8_t FALLING = 4;
+
+
 
 #ifndef false
 #define false 0
@@ -59,5 +80,19 @@ extern void setup();
 extern void loop();
 
 extern void delay (uint32_t ms);
+
+extern void interrupts();
+extern void noInterrupts();
+
+extern uint8_t isDigit(uint8_t c);
+
+typedef void (*ISR)();
+
+extern void attachInterrupt (uint8_t int_index, ISR isr, uint8_t mode);
+extern void detachInterrupt (uint8_t int_index);
+
+extern void timer_advance_ (uint32_t count);
+
+
 
 #endif

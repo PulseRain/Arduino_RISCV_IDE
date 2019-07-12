@@ -30,12 +30,25 @@
 volatile uint32_t* const REG_MTIME_LOW  = (uint32_t*) 0x20000000;
 volatile uint32_t* const REG_MTIME_HIGH = (uint32_t*) 0x20000004;
 
+//============================================================================================
+// MTIMECMP 
+//============================================================================================
+
+volatile uint32_t* const REG_MTIMECMP_LOW  = (uint32_t*)0x20000008;
+volatile uint32_t* const REG_MTIMECMP_HIGH = (uint32_t*)0x2000000C;
+
 
 //============================================================================================
 // UART 
 //============================================================================================
 
 volatile uint32_t* const REG_UART_TX = (uint32_t*) 0x20000010;
+volatile uint32_t* const REG_UART_RX = (uint32_t*) 0x20000014;
+
+constexpr uint32_t REG_UART_RX_READ_REQ_BIT        = 1 << 31;
+constexpr uint32_t REG_UART_RX_FIFO_FULL_BIT       = 1 << 30;
+constexpr uint32_t REG_UART_RX_FIFO_NOT_EMPTY_BIT  = 1 << 29;
+constexpr uint32_t REG_UART_RX_FIFO_SYNC_RESET_BIT = 1 << 28;
 
 //============================================================================================
 // GPIO 
@@ -46,5 +59,26 @@ volatile uint8_t* const REG_GPIO = (uint8_t*)0x20000018;
 #define GPIO_P1  (REG_GPIO[1])
 #define GPIO_P2  (REG_GPIO[2])
 #define GPIO_P3  (REG_GPIO[3])
+
+//============================================================================================
+// Interrupt 
+//============================================================================================
+volatile uint8_t* const REG_INT_SOURCE = (uint8_t*)0x2000001C;
+
+constexpr uint32_t INT_TIMER_INDEX      = 0;
+constexpr uint32_t INT_UART_RX_INDEX    = 1;
+constexpr uint32_t INT_EXTERNAL_1ST     = 30;
+constexpr uint32_t INT_EXTERNAL_LAST    = 31;
+
+
+constexpr uint32_t MCAUSE_INTERRUPT    = 1 << 31;
+constexpr uint32_t MCAUSE_TIMER        = 0x7;
+constexpr uint32_t MCAUSE_PERIPHERAL   = 0xB;
+
+constexpr uint32_t MCAUSE_TIMER_MASK       = 1 << MCAUSE_TIMER;
+constexpr uint32_t MCAUSE_PERIPHERAL_MASK  = 1 << MCAUSE_PERIPHERAL;
+
+constexpr uint32_t MSTATUS_MIE_BIT         = 1 << 3;
+
 
 #endif

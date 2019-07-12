@@ -27,6 +27,7 @@
 #include "Stream.h"
 
 #include "HardwareSerial.h"
+#include "peripherals.h"
 
 HardwareSerial Serial;
 
@@ -73,25 +74,98 @@ uint32_t millis ()
     return (low);
 } // End of millis()
 
+static uint32_t interrupt_saved_mstatus;
+
+static void interrupt_save_and_disable_ ()
+{
+    interrupt_saved_mstatus    = read_csr (mstatus);
+    write_csr (mstatus, 0);
+ 
+}
+
+static void interrupt_restore_saved_value_ ()
+{
+    write_csr (mstatus, interrupt_saved_mstatus);
+   
+}
+
+
+//----------------------------------------------------------------------------
+// interrupts()
+//
+// Parameters:
+//      None
+//
+// Return Value:
+//      None
+//
+// Remarks:
+//      Enable Interrupt
+//----------------------------------------------------------------------------
+
+void interrupts()
+{
+    write_csr (mie, MCAUSE_TIMER_MASK | MCAUSE_PERIPHERAL_MASK);
+    write_csr (mstatus, MSTATUS_MIE_BIT);
+}
+
+//----------------------------------------------------------------------------
+// noInterrupts()
+//
+// Parameters:
+//      None
+//
+// Return Value:
+//      None
+//
+// Remarks:
+//      Disable Interrupt
+//----------------------------------------------------------------------------
+
+void noInterrupts()
+{
+    write_csr (mie, 0);
+    write_csr (mstatus, 0);
+}
+
+//----------------------------------------------------------------------------
+// delay()
+//
+// Parameters:
+//      ms : delay in milliseconds
+//
+// Return Value:
+//      None
+//
+// Remarks:
+//      delay by milliseconds
+//----------------------------------------------------------------------------
 
 void delay (uint32_t ms)
 {
     uint32_t low, high;
     uint64_t finish_time, current_time;
     
-    low  = (*REG_MTIME_LOW);
-    high = (*REG_MTIME_HIGH);
+    uint32_t delay_interrupt_saved_mstatus    = read_csr (mstatus);
+    
+    write_csr (mstatus, 0);
+        low  = (*REG_MTIME_LOW);
+        high = (*REG_MTIME_HIGH);
+    write_csr (mstatus, delay_interrupt_saved_mstatus);
+    
     finish_time = ((uint64_t)high << 32) + (uint64_t)(low) + (uint64_t)ms*1000;
     
     do {
-        low  = (*REG_MTIME_LOW);
-        high = (*REG_MTIME_HIGH);
+        
+        write_csr (mstatus, 0);
+            low  = (*REG_MTIME_LOW);
+            high = (*REG_MTIME_HIGH);
+        write_csr (mstatus, delay_interrupt_saved_mstatus);
         
         current_time = ((uint64_t)high << 32) + (uint64_t)(low);
     } while (finish_time > current_time);
-        
-}
 
+} // End of delay()
 
 static void _putchar(char n)
 {
@@ -186,6 +260,30 @@ void myprint(const char* str, ...)
 
 void _exit (int status)
 {
-	while (1) {}		/* Make sure we hang here */
+    while (1) {}        /* Make sure we hang here */
 }
 
+
+
+ //----------------------------------------------------------------------------
+// isDigit()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if the value input is in [0-9]
+//
+// Remarks:
+//      determine if the input char is a digit
+//----------------------------------------------------------------------------
+
+uint8_t isDigit(uint8_t c)
+{
+  if ((c >= '0') && (c <= '9')) {
+    return 1;
+  } 
+
+  return 0;
+  
+} // End of isDigit()
