@@ -36,7 +36,7 @@ static void shared_isr(void) {
     uint8_t  i, code = t & 0xFF;
     uint32_t old_mstatus_value = read_csr (mstatus);
     write_csr(mstatus, 0);
-                        
+    
     if ((t & MCAUSE_INTERRUPT) == 0) { // Exception
         Serial.print ("Exception !!!!! Exception Code = 0x");
         Serial.println (code, HEX);
@@ -55,27 +55,34 @@ static void shared_isr(void) {
             }
           
         } else {
-        
+            
+            
             t = read_csr (mip);
             t &= ~MCAUSE_PERIPHERAL_MASK;
             write_csr (mip, t);
           
             t = *REG_INT_SOURCE;
-          
+            
             if (t & (1 << INT_UART_RX_INDEX)) {
+            
                 if (uart_rx_isr) {
                     uart_rx_isr ();
                 }
-            } else {
-                for (i = INT_EXTERNAL_1ST; i < INT_EXTERNAL_LAST; ++i) {
-                    if (t & ( 1 << i)) {
-                        if (INTx_isr[i - INT_EXTERNAL_1ST]) {
+                
+            } 
+            
+            
+            for (i = INT_EXTERNAL_1ST; i <= INT_EXTERNAL_LAST; ++i) {
+                if (t & ( 1 << i)) {
+                    
+                    if (INTx_isr[i - INT_EXTERNAL_1ST]) {
+                       
                             INTx_isr[i - INT_EXTERNAL_1ST]();
-                            break;
-                        }
+                       
                     }
-                } // End of for loop
-            }
+                }
+            } // End of for loop
+        
          
       }
       
@@ -107,8 +114,10 @@ void attachInterrupt (uint8_t int_index, ISR isr, uint8_t mode)
             timer_isr = isr;
         } else if (int_index == INT_UART_RX_INDEX) {
             uart_rx_isr = isr;
+            (*REG_INT_ENABLE) |= 1 << INT_UART_RX_INDEX;
         } else if ((int_index >= INT_EXTERNAL_1ST) && (int_index <= INT_EXTERNAL_LAST)) {
             INTx_isr [int_index - INT_EXTERNAL_1ST] = isr;
+            (*REG_INT_ENABLE) |= 1 << int_index;
         } else {
             Serial.print ("unknown interrupt index ");
             Serial.println(int_index);
@@ -143,8 +152,10 @@ void detachInterrupt (uint8_t int_index)
         timer_isr = 0;
     } else if (int_index == INT_UART_RX_INDEX) {
         uart_rx_isr = 0;
+        (*REG_INT_ENABLE) &= ~(1 << INT_UART_RX_INDEX);
     } else if ((int_index >= INT_EXTERNAL_1ST) && (int_index <= INT_EXTERNAL_LAST)) {
         INTx_isr [int_index - INT_EXTERNAL_1ST] = 0;
+        (*REG_INT_ENABLE) &= ~(1 << int_index);
     } else {
         Serial.print ("unknown interrupt index ");
         Serial.println(int_index);
