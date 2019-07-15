@@ -12,6 +12,41 @@
         {
           "name": "PulseRain Reindeer",
           "architecture": "Reindeer",
+          "version": "1.3.1",
+          "category": "Contributed",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.3.1.tar.gz",
+          "archiveFileName": "Reindeer_1.3.1.tar.gz",
+          "checksum": "SHA-256:1d87c427d08dd177d0f714781d1ede4d22c433f4e5798327a408843f1a012a49",
+          "size": "17866",
+          "help": {
+            "online": "http://riscv.us"
+          },
+          "boards": [
+            {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},
+            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"},
+            {"name": "Efinix Trion T20 BGA256 Development Kit"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "2.1.0",
+              "name": "Reindeer_upload"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "Reindeer_compiler"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "hex_total_size"
+            }
+          ]
+        },
+        {
+          "name": "PulseRain Reindeer",
+          "architecture": "Reindeer",
           "version": "1.3.0",
           "category": "Contributed",
           "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.3.0.tar.gz",
