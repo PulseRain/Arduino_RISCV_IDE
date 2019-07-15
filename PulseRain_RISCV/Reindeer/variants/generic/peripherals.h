@@ -61,9 +61,17 @@ volatile uint8_t* const REG_GPIO = (uint8_t*)0x20000018;
 #define GPIO_P3  (REG_GPIO[3])
 
 //============================================================================================
+// I2C 
+//============================================================================================
+
+volatile uint8_t* const REG_I2C_CSR  = (uint8_t*) 0x20000024;
+volatile uint8_t* const REG_I2C_DATA = (uint8_t*) 0x20000028;
+
+//============================================================================================
 // Interrupt 
 //============================================================================================
-volatile uint8_t* const REG_INT_SOURCE = (uint8_t*)0x2000001C;
+volatile uint32_t* const REG_INT_SOURCE = (uint32_t*)0x2000001C;
+volatile uint32_t* const REG_INT_ENABLE = (uint32_t*)0x20000020;
 
 constexpr uint32_t INT_TIMER_INDEX      = 0;
 constexpr uint32_t INT_UART_RX_INDEX    = 1;
