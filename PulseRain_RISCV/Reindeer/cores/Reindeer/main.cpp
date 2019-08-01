@@ -71,7 +71,6 @@ static void shared_isr(void) {
                 
             } 
             
-            
             for (i = INT_EXTERNAL_1ST; i <= INT_EXTERNAL_LAST; ++i) {
                 if (t & ( 1 << i)) {
                     
@@ -82,14 +81,11 @@ static void shared_isr(void) {
                     }
                 }
             } // End of for loop
-        
-         
       }
-      
     }
 
     write_csr(mstatus, old_mstatus_value);
-    
+
 } // End of shared_isr()
 
 //-----------------------------------------------------------------------------

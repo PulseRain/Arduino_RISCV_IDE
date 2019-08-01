@@ -3,28 +3,28 @@
 ############################################################
 
 name=PulseRain RISC-V (Reindeer)
-version=1.3.1
+version=1.3.2
 
 
 compiler.path           = {runtime.tools.Reindeer_compiler.path}/RISCV_Embedded_GCC/bin/
 compiler.define= -D__GXX_EXPERIMENTAL_CXX0X__ -DIDE=Arduino "-I{compiler.path}../riscv-none-embed/include"
 
 build.extra_flags       =
-build.flags             = --specs=nosys.specs -Os -fno-builtin-printf -fdata-sections -ffunction-sections -fno-exceptions -fno-unwind-tables -fno-rtti
+build.flags             = 
 
 compiler.c.cmd          = riscv-none-embed-gcc
-compiler.c.flags        =  -W -c
+compiler.c.flags        =  -W -c --specs=nosys.specs -Os -fdata-sections -ffunction-sections -fno-exceptions -fno-unwind-tables 
 compiler.c.extra_flags  =
 compiler.elf.flags      =
 compiler.elf.cmd        = riscv-none-embed-gcc
 
 compiler.cpp.cmd        = riscv-none-embed-g++
-compiler.cpp.flags      = -W -c
+compiler.cpp.flags      = -W -c --specs=nosys.specs -Os -fdata-sections -ffunction-sections -fno-exceptions -fno-unwind-tables -fno-rtti --std=c++17
 compiler.cpp.extra_flags = 
 
 
-compiler.ld.cmd = riscv-none-embed-gcc
-compiler.ld.flags= -Wl,--gc-sections -static
+compiler.ld.cmd = riscv-none-embed-g++
+compiler.ld.flags= -Wl,--gc-sections -static -lm --specs=nosys.specs
 compiler.ld.extra_flags=
 compiler.ldscript=Reindeer.ld
 

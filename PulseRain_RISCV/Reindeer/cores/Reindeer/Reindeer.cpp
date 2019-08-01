@@ -29,6 +29,7 @@
 #include "HardwareSerial.h"
 #include "peripherals.h"
 
+
 HardwareSerial Serial;
 
 //----------------------------------------------------------------------------
@@ -172,7 +173,7 @@ static void _putchar(char n)
     while ((*REG_UART_TX) & 0x80000000);
     (*REG_UART_TX) = n;
     while ((*REG_UART_TX) & 0x80000000);
-}
+} // End of _putchar()
 
 static void _puts (char p[])
 {
@@ -183,6 +184,27 @@ static void _puts (char p[])
         ++i;
     }
   
+}
+
+// for printf to serial port
+
+extern "C"
+{
+    int _write(int file, char *data, int len)
+    {
+      
+       int i;
+       
+        for (i = 0; i < len; ++i) {
+            while ((*REG_UART_TX) & 0x80000000);
+                (*REG_UART_TX) = data[i];
+            while ((*REG_UART_TX) & 0x80000000);
+        }
+     
+       // return # of bytes written - as best we can tell
+       return len; 
+    }
+
 }
 
 static char *convert(unsigned int num, unsigned int base) 
