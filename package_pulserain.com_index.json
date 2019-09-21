@@ -265,7 +265,7 @@
             "online": "http://riscv.us"
           },
           "boards": [
-            {"name": "Future Electronics Creative Board (Microsemi IGLOO2)"},
+            {"name": "Future Electronics Creative Board (Microsemi IGLOO2)"}
           ],
           "toolsDependencies": [
             {
