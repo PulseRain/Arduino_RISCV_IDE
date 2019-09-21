@@ -102,7 +102,7 @@ recipe.preproc.includes="{compiler.path}{compiler.cpp.cmd}"  {compiler.cpp.flags
 preproc.macros.flags= -w -x c++ -E -CC
 preprocessed_file_path=NUL
 
-recipe.preproc.macros="{compiler.path}{compiler.c.cmd}" {preproc.macros.flags} -DARDUINO={runtime.ide.version} -D{build.board} -DARDUINO_ARCH_{build.arch} {compiler.define}  -I{build.path}/sketch {includes} "{source_file}" -o "{preprocessed_file_path}"
+recipe.preproc.macros="{compiler.path}{compiler.c.cmd}" {build.extra_flags} {preproc.macros.flags} -DARDUINO={runtime.ide.version} -D{build.board} -DARDUINO_ARCH_{build.arch} {compiler.define}  -I{build.path}/sketch {includes} "{source_file}" -o "{preprocessed_file_path}"
 
  
 ###############################################################################
