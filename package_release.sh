@@ -96,7 +96,7 @@ then
 else
     cd ./Reindeer_compiler;tar zcf ../package/$Rattlesnake_compiler_name .;cd ..
 fi
-sha256_Reindeer_compiler=$(sha256sum ./package/$Rattlesnake_compiler_name | awk '{print $1}')
+sha256_Rattlesnake_compiler=$(sha256sum ./package/$Rattlesnake_compiler_name | awk '{print $1}')
 size_Rattlesnake_compiler=$(stat -c %s ./package/$Rattlesnake_compiler_name)
 
 

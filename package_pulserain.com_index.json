@@ -373,7 +373,7 @@
               "host": "i686-mingw32",
               "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Rattlesnake_compiler_1.0.0.tar.gz",
               "archiveFileName": "Rattlesnake_compiler_1.0.0.tar.gz",
-              "checksum": "SHA-256:",
+              "checksum": "SHA-256:da07d2038f42d083eef935fb5928b656250f78e67336bd10187c8e895338c246",
               "size": "100402420"
             }
           ]
