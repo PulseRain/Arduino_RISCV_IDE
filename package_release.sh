@@ -19,12 +19,12 @@
 ###############################################################################
 
 Reindeer_version=1.3.2
-Rattlesnake_version=1.2.0
+Rattlesnake_version=1.3.0
 
 Reindeer_compiler_version=1.0.0
 Reindeer_upload_version=2.1.0
 
-Rattlesnake_compiler_version=1.0.0
+Rattlesnake_compiler_version=1.1.0
 Rattlesnake_upload_version=1.1.0
 
 hex_total_size_version=1.0.0

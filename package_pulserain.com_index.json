@@ -255,6 +255,34 @@
         {
           "name": "PulseRain Rattlesnake",
           "architecture": "Rattlesnake",
+          "version": "1.3.0",
+          "category": "Contributed",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Rattlesnake_1.3.0.tar.gz",
+          "archiveFileName": "Rattlesnake_1.3.0.tar.gz",
+          "checksum": "SHA-256:c73b3307662bc54194e498faaa7c61a622b8f0c00ada0104836c714dd937a269",
+          "size": "17819",
+          "help": {
+            "online": "http://riscv.us"
+          },
+          "boards": [
+            {"name": "Future Electronics Creative Board (Microsemi IGLOO2)"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.1.0",
+              "name": "Rattlesnake_upload"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.1.0",
+              "name": "Rattlesnake_compiler"
+            }
+          ]
+        },
+        {
+          "name": "PulseRain Rattlesnake",
+          "architecture": "Rattlesnake",
           "version": "1.2.0",
           "category": "Contributed",
           "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Rattlesnake_1.2.0.tar.gz",
@@ -390,6 +418,19 @@
               "archiveFileName": "Rattlesnake_upload_1.1.0.tar.gz",
               "checksum": "SHA-256:76243356ee7abbf30f24c77c143a9cc1fadcb61f2063f24397b555a73216a98b",
               "size": "6036524"
+            }
+          ]
+        },
+        {
+          "version": "1.1.0",
+          "name": "Rattlesnake_compiler",
+          "systems": [
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Rattlesnake_compiler_1.1.0.tar.gz",
+              "archiveFileName": "Rattlesnake_compiler_1.1.0.tar.gz",
+              "checksum": "SHA-256:34313b47eb10af2293bb8c5b81be436d0cf798fc023157d930b5cb39a87076e0",
+              "size": "100402420"
             }
           ]
         },
