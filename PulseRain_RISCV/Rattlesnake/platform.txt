@@ -3,7 +3,7 @@
 ############################################################
 
 name=PulseRain RISC-V (Rattlesnake)
-version=1.1.0
+version=1.2.0
 
 
 compiler.path           = {runtime.tools.Rattlesnake_compiler.path}/RISCV_Embedded_GCC/bin/

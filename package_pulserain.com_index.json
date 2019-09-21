@@ -255,6 +255,34 @@
         {
           "name": "PulseRain Rattlesnake",
           "architecture": "Rattlesnake",
+          "version": "1.2.0",
+          "category": "Contributed",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Rattlesnake_1.2.0.tar.gz",
+          "archiveFileName": "Rattlesnake_1.2.0.tar.gz",
+          "checksum": "SHA-256:7df02629876f786656f2889e104a93ec4450925f0250ade3d3ffa1a34104e479",
+          "size": "17819",
+          "help": {
+            "online": "http://riscv.us"
+          },
+          "boards": [
+            {"name": "Future Electronics Creative Board (Microsemi IGLOO2)"},
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.1.0",
+              "name": "Rattlesnake_upload"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "Rattlesnake_compiler"
+            }
+          ]
+        },
+        {
+          "name": "PulseRain Rattlesnake",
+          "architecture": "Rattlesnake",
           "version": "1.1.0",
           "category": "Contributed",
           "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Rattlesnake_1.1.0.tar.gz",
@@ -270,7 +298,7 @@
           "toolsDependencies": [
             {
               "packager": "PulseRain_RISCV",
-              "version": "2.1.0",
+              "version": "1.1.0",
               "name": "Rattlesnake_upload"
             },
             {
@@ -353,13 +381,13 @@
           ]
         },
         {
-          "version": "2.1.0",
+          "version": "1.1.0",
           "name": "Rattlesnake_upload",
           "systems": [
             {
               "host": "i686-mingw32",
-              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Rattlesnake_upload_2.1.0.tar.gz",
-              "archiveFileName": "Rattlesnake_upload_2.1.0.tar.gz",
+              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Rattlesnake_upload_1.1.0.tar.gz",
+              "archiveFileName": "Rattlesnake_upload_1.1.0.tar.gz",
               "checksum": "SHA-256:76243356ee7abbf30f24c77c143a9cc1fadcb61f2063f24397b555a73216a98b",
               "size": "6036524"
             }

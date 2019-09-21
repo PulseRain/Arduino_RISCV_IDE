@@ -4,8 +4,14 @@
 
 
 Creative.name=PulseRain Rattlesnake - Future Electronics Creative Board (Microsemi IGLOO2)
-Creative.compiler.ld.extra_flags=--section-start=.init=0x80000000
+
+Creative.build.extra_flags = -march=rv32imc -mabi=ilp32 
+Creative.compiler.c.extra_flags= 
+Creative.compiler.cpp.extra_flags= 
+Creative.ld.extra_flags = 
+
 Creative.build.variant=generic
+Creative.platform=Rattlesnake
 Creative.build.board=_BOARD_PULSERAIN_RATTLESNAKE_CREATIVE_
 Creative.build.sdata.size=49152
 
@@ -18,3 +24,6 @@ Creative.upload.speed=115200
 Creative.upload.tool=Rattlesnake_upload
 
 
+Creative.build.mcu=Rattlesnake
+Creative.build.core=Rattlesnake
+Creative.build.variant=generic
