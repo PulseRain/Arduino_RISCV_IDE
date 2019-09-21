@@ -3,27 +3,33 @@
 ############################################################
 
 name=PulseRain RISC-V (Rattlesnake)
-version=1.0.0
+version=1.1.0
 
 
-compiler.path           = {runtime.tools.RV_compiler.path}/RV_Embedded_GCC/bin/
-compiler.define         = -D__GXX_EXPERIMENTAL_CXX0X__ 
+compiler.path           = {runtime.tools.Rattlesnake_compiler.path}/RISCV_Embedded_GCC/bin/
+compiler.define= -D__GXX_EXPERIMENTAL_CXX0X__ -DIDE=Arduino "-I{compiler.path}../riscv-none-embed/include"
 
 build.extra_flags       =
+build.flags             = 
 
 compiler.c.cmd          = riscv-none-embed-gcc
-compiler.c.flags        = --specs=nosys.specs -march=rv32i -mabi=ilp32 -Os -fno-builtin-printf -c 
+compiler.c.flags        =  -W -c --specs=nosys.specs -Os -fdata-sections -ffunction-sections -fno-exceptions -fno-unwind-tables 
 compiler.c.extra_flags  =
 compiler.elf.flags      =
 compiler.elf.cmd        = riscv-none-embed-gcc
 
 compiler.cpp.cmd        = riscv-none-embed-g++
-compiler.cpp.flags      =
+compiler.cpp.flags      = -W -c --specs=nosys.specs -Os -fdata-sections -ffunction-sections -fno-exceptions -fno-unwind-tables -fno-rtti --std=c++17
+compiler.cpp.extra_flags = 
 
 
-compiler.S.flags=--specs=nosys.specs -march=rv32i -mabi=ilp32 -Os -fno-builtin-printf -c
+compiler.ld.cmd = riscv-none-embed-g++
+compiler.ld.flags= -Wl,--gc-sections -static -lm --specs=nosys.specs
+compiler.ld.extra_flags=
+compiler.ldscript=Rattlesnake.ld
+
+compiler.S.flags=--specs=nosys.specs -Os -fno-builtin-printf -c
 compiler.S.cmd=riscv-none-embed-as
-
 
 
 compiler.ar.cmd=riscv-none-embed-ar
@@ -31,21 +37,23 @@ compiler.ar.flags=rcs
 
 compiler.objcopy.cmd=riscv-none-embed-objcopy
 compiler.objcopy.eep.flags=-O ihex 
-compiler.elf2hex.flags=
+
 compiler.elf2hex.cmd=riscv-none-embed-objcopy
-compiler.ldflags=
-compiler.size.cmd=mustang_size
+
+compiler.dump.cmd = riscv-none-embed-objdump
+
+compiler.size.path = {runtime.tools.hex_total_size.path}
+compiler.size.cmd = hex_total_size
 
 compiler.cpudef=-mprocessor=
-compiler.ldscript=M10.ld
-compiler.upload.cmd=FP51_upload
-compiler.includepath={0}/hardware/M10/FP51/cores/FP51
-compiler.upload.flags=
+compiler.upload.cmd=Rattlesnake_upload
 library.core.path=./hardware/M10/FP51/cores/FP51
 library.path=./hardware/M10/FP51/cores/FP51
-compiler.define= -DIDE=Arduino "-I{compiler.path}../riscv-none-embed/include"
-build.ldscript.path={build.core.path}
-build.variant=M10
+
+
+build.variant=generic
+build.ldscript.path={build.variant.path}
+
 core.header=Arduino.h
 
 
@@ -53,54 +61,60 @@ compiler.c.elf.extra_flags= -I{build.core.path}
 compiler.S.extra_flags=
 compiler.cpp.extra_flags=
 compiler.ar.extra_flags=
+
+compiler.objcopy.eep.flags = -O binary
 compiler.objcopy.eep.extra_flags=
+
+compiler.elf2hex.flags = -O ihex
 compiler.elf2hex.extra_flags=
 
+compiler.dump.flags= --disassemble-all --disassemble-zeroes --section=.text --section=.text.startup --section=.data --section=.rodata --section=.sdata --section=.sdata2 --section=.init_array --section=.fini_array
+compiler.dump.extra_flags=
 
-recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}"  {compiler.c.flags} {compiler.define} {compiler.c.extra_flags} {build.extra_flags} -I{build.path}/sketch {includes} "{source_file}" -o "{object_file}"
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {build.flags} {compiler.c.flags} {compiler.define} {compiler.c.extra_flags} {build.extra_flags} -I{build.path}/sketch {includes} "{source_file}" -o "{object_file}"
 
 
-recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}"  {compiler.cpp.flags} {compiler.define} "{compiler.cpp.extra_flags}" {build.extra_flags} -I{build.path}/sketch {includes} "{source_file}" -o "{object_file}"
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {build.flags} {compiler.cpp.flags} {compiler.define} {compiler.cpp.extra_flags} {build.extra_flags} -I{build.path}/sketch {includes} "{source_file}" -o "{object_file}"
 
 recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} -mprocessor={build.mcu} -DF_CPU={build.f_cpu}  -DARDUINO={runtime.ide.version} -D{build.board} {compiler.define} "{compiler.cpp.extra_flags}" {build.extra_flags} -I{build.path}/sketch {includes} "{source_file}" -o "{object_file}"
 
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}"  {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}"  "{object_file}"
 
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mprocessor={build.mcu} {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" "{build.core.path}/cpp-startup.S" {object_files} "{build.path}/{archive_file}" -L{build.path} -lm  -T "{build.ldscript.path}/{ldscript}" -T "{build.core.path}/{ldcommon}"
+recipe.c.combine.pattern="{compiler.path}{compiler.ld.cmd}" -T {build.ldscript.path}/{compiler.ldscript} {build.flags} {compiler.ld.flags} {build.extra_flags} -o "{build.path}/{build.project_name}.elf" {object_files} "{build.path}/{archive_file}"
 
 recipe.objcopy.eep.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.objcopy.eep.flags} {compiler.objcopy.eep.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.eep"
 
-recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf"
+recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf"  "{build.path}/{build.project_name}.hex"
+
+### recipe.objcopy.dump.pattern="{compiler.path}{compiler.dump.cmd}" {compiler.dump.flags} {compiler.dump.extra_flags} "{build.path}/{build.project_name}.elf" >  "{build.path}/{build.project_name}.dump"
 
 recipe.output.tmp_file={build.project_name}.hex
 recipe.output.save_file={build.project_name}.{build.variant}.hex
 
-recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
-recipe.size.regex=^(?:\.text|\.data|\.bootloader)\s+([0-9]+).*
-recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+([0-9]+).*
-recipe.size.regex.eeprom=^(?:\.eeprom)\s+([0-9]+).*
 
 
-recipe.size.pattern="{compiler.path}{compiler.size.cmd}"  "{build.path}/{build.project_name}.map"
-recipe.size.regex=^(?:\.reset|\.image_ptr_table|\.app_excpt|\.vector\S*|\.startup|\.init|\.fini|\.ctors|\.dtors|\.header_info|\.dinit|\.text\S*|\.rodata\S*|\.data)\s+([0-9]+).*
-recipe.size.regex.data=^(?:\.ram_exchange_data|\.dbg_data|\.sdata|\.sbss|\.data\S*|\.stack|\.bss|\.comment.__use_force_isr_install|\.eh_frame|\.jcr)\s+([0-9]+).*
+recipe.size.pattern="{compiler.size.path}/{compiler.size.cmd}"  "{build.path}/{build.project_name}.hex"
+recipe.size.regex=Total\s+([0-9]+).*
 
 preproc.includes.flags=-w -x c++ -M -MG -MP
 recipe.preproc.includes="{compiler.path}{compiler.cpp.cmd}"  {compiler.cpp.flags} {preproc.includes.flags} -DARDUINO={runtime.ide.version} -D{build.board} -DARDUINO_ARCH_{build.arch} {compiler.define}  -I{build.path}/sketch {includes} "{source_file}"
 
 preproc.macros.flags= -w -x c++ -E -CC
+preprocessed_file_path=NUL
 
-recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} -DARDUINO={runtime.ide.version} -D{build.board} -DARDUINO_ARCH_{build.arch} {compiler.define}  -I{build.path}/sketch {includes} "{source_file}" -o "{preprocessed_file_path}"
+recipe.preproc.macros="{compiler.path}{compiler.c.cmd}" {preproc.macros.flags} -DARDUINO={runtime.ide.version} -D{build.board} -DARDUINO_ARCH_{build.arch} {compiler.define}  -I{build.path}/sketch {includes} "{source_file}" -o "{preprocessed_file_path}"
 
  
 ###############################################################################
-# M10 loader
+# up loader
 ###############################################################################
-upload.tool=M10_upload
-tools.M10_upload.cmd=FP51_upload
-tools.M10_upload.cmd.windows=FP51_upload
-tools.M10_upload.path={runtime.tools.M10_upload.path}
 
-tools.M10_upload.upload.params.verbose=
-tools.M10_upload.upload.params.quiet=
-tools.M10_upload.upload.pattern="{path}/{cmd}" {upload.verbose} {upload.verify} -p{build.mcu} -c{upload.protocol} -P{serial.port} -b{upload.speed} "-U{build.path}/{build.project_name}.eep"
+tools.Rattlesnake_upload.cmd=rattlesnake_config
+tools.Rattlesnake_upload.path={runtime.tools.Rattlesnake_upload.path}
+
+tools.Rattlesnake_upload.upload.params.verbose=
+tools.Rattlesnake_upload.upload.params.quiet=
+tools.Rattlesnake_upload.upload.protocol=UART
+
+
+tools.Rattlesnake_upload.upload.pattern="{path}/{cmd}" --reset --run --port={serial.port} --baud={upload.speed} "--image={build.path}/{build.project_name}.hex"

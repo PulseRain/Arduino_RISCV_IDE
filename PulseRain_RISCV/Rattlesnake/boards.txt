@@ -3,47 +3,18 @@
 ############################################################
 
 
-Creative.name=PulseRain Rattlesnake - Future Electronics Creative Board (Microsemi SmartFusion2 M2S025)
+Creative.name=PulseRain Rattlesnake - Future Electronics Creative Board (Microsemi IGLOO2)
 Creative.compiler.ld.extra_flags=--section-start=.init=0x80000000
 Creative.build.variant=generic
 Creative.build.board=_BOARD_PULSERAIN_RATTLESNAKE_CREATIVE_
-Creative.build.sdata.size=65536
+Creative.build.sdata.size=49152
 
-Creative.ldscript=Reindeer.ld
+Creative.ldscript=Rattlesnake.ld
 
 Creative.upload.protocol=UART
-Creative.upload.maximum_size=32768
+Creative.upload.maximum_size=49152
 Creative.upload.maximum_data_size=8192
 Creative.upload.speed=115200
-Creative.upload.tool=Reindeer_upload
-
-UPDuinoV2.name=PulseRain Rattlesnake - Gnarly Grey UPDuinoV2 Board (Lattice UP5K)
-UPDuinoV2.compiler.ld.extra_flags=--section-start=.init=0x80000000
-UPDuinoV2.build.variant=generic
-UPDuinoV2.build.board=_BOARD_PULSERAIN_RATTLESNAKE_UPDUINO_V2_
-UPDuinoV2.build.sdata.size=65536
-
-UPDuinoV2.ldscript=Reindeer.ld
-
-UPDuinoV2.upload.protocol=UART
-UPDuinoV2.upload.maximum_size=32768
-UPDuinoV2.upload.maximum_data_size=8192
-UPDuinoV2.upload.speed=115200
-UPDuinoV2.upload.tool=Reindeer_upload
+Creative.upload.tool=Rattlesnake_upload
 
 
-
-
-M10.name=PulseRain Rattlesnake - PulseRain M10 Board (Intel 10M08SAE144C8G)
-M10.compiler.ld.extra_flags=--section-start=.init=0x80000000
-M10.build.variant=generic
-M10.build.board=_BOARD_PULSERAIN_RATTLESNAKE_M10_
-M10.build.sdata.size=65536
-
-M10.ldscript=Reindeer.ld
-
-M10.upload.protocol=UART
-M10.upload.maximum_size=32768
-M10.upload.maximum_data_size=8192
-M10.upload.speed=115200
-M10.upload.tool=Reindeer_upload
