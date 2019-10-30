@@ -19,7 +19,7 @@
 ###############################################################################
 
 Reindeer_version=1.3.2
-Rattlesnake_version=1.3.1
+Rattlesnake_version=1.3.2
 
 Reindeer_compiler_version=1.0.0
 Reindeer_upload_version=2.1.0
@@ -203,7 +203,8 @@ echo '          "help": {'
 echo '            "online": "http://riscv.us"'
 echo '          },'
 echo '          "boards": ['
-echo '            {"name": "Future Electronics Creative Board (Microsemi IGLOO2)"}'
+echo '            {"name": "Future Electronics Creative Board (Microsemi IGLOO2)"},'
+echo '            {"name": "Digilent Arty A7 (Xilinx Arty7-100T)"}'
 echo '          ],'
 echo '          "toolsDependencies": ['
 echo '            {'
