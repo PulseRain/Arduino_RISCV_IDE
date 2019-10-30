@@ -3,7 +3,7 @@
 ############################################################
 
 
-Creative.name=PulseRain Rattlesnake - Future Electronics Creative Board (Microsemi IGLOO2)
+Creative.name=Future Electronics Creative Board (Microsemi IGLOO2)
 
 Creative.build.extra_flags = -march=rv32imc -mabi=ilp32 
 Creative.compiler.c.extra_flags= 
@@ -19,7 +19,7 @@ Creative.ldscript=Rattlesnake.ld
 
 Creative.upload.protocol=UART
 Creative.upload.maximum_size=49152
-Creative.upload.maximum_data_size=8192
+Creative.upload.maximum_data_size=49152
 Creative.upload.speed=115200
 Creative.upload.tool=Rattlesnake_upload
 
@@ -27,3 +27,29 @@ Creative.upload.tool=Rattlesnake_upload
 Creative.build.mcu=Rattlesnake
 Creative.build.core=Rattlesnake
 Creative.build.variant=generic
+
+
+Arty7.name=Digilent Arty A7 (Xilinx Arty7-100T)
+
+Arty7.build.extra_flags = -march=rv32imc -mabi=ilp32 
+Arty7.compiler.c.extra_flags= 
+Arty7.compiler.cpp.extra_flags= 
+Arty7.ld.extra_flags = 
+
+Arty7.build.variant=generic
+Arty7.platform=Rattlesnake
+Arty7.build.board=_BOARD_PULSERAIN_RATTLESNAKE_ARTY7_
+Arty7.build.sdata.size=131072
+
+Arty7.ldscript=Rattlesnake.ld
+
+Arty7.upload.protocol=UART
+Arty7.upload.maximum_size=131072
+Arty7.upload.maximum_data_size=131072
+Arty7.upload.speed=115200
+Arty7.upload.tool=Rattlesnake_upload
+
+
+Arty7.build.mcu=Rattlesnake
+Arty7.build.core=Rattlesnake
+Arty7.build.variant=generic
