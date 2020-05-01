@@ -56,11 +56,6 @@ static void shared_isr(void) {
           
         } else {
             
-            
-            t = read_csr (mip);
-            t &= ~MCAUSE_PERIPHERAL_MASK;
-            write_csr (mip, t);
-          
             t = *REG_INT_SOURCE;
             
             if (t & (1 << INT_UART_RX_INDEX)) {
@@ -81,6 +76,12 @@ static void shared_isr(void) {
                     }
                 }
             } // End of for loop
+            
+            
+            t = read_csr (mip);
+            t &= ~MCAUSE_PERIPHERAL_MASK;
+            write_csr (mip, t);
+            
       }
     }
 
