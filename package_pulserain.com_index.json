@@ -9,15 +9,6 @@
       },
       "websiteURL": "http://riscv.us",
       "platforms": [
-         {
-      "name": "PulseRain_RISCV",
-      "maintainer": "PulseRain Technology, LLC",
-      "email": "info@pulserain.com",
-      "help": {
-        "online": "http://riscv.us"
-      },
-      "websiteURL": "http://riscv.us",
-      "platforms": [
         {
           "name": "PulseRain Reindeer",
           "architecture": "Reindeer",
