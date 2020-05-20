@@ -40,7 +40,7 @@ STEP.build.variant=generic
 
 
 
-BLADERF.name=STEP CYC10 Board (Intel 10CL016YU256C8G)
+BLADERF.name=Nuand bladeRF
 
 BLADERF.platform=Nuand bladeRF
 BLADERF.build.board=_BOARD_BLADERF_
