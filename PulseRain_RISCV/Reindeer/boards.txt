@@ -39,6 +39,27 @@ STEP.build.core=Reindeer
 STEP.build.variant=generic
 
 
+
+BLADERF.name=STEP CYC10 Board (Intel 10CL016YU256C8G)
+
+BLADERF.platform=Nuand bladeRF
+BLADERF.build.board=_BOARD_BLADERF_
+
+BLADERF.build.extra_flags = -march=rv32i -mabi=ilp32 
+BLADERF.compiler.c.extra_flags= 
+BLADERF.compiler.cpp.extra_flags= 
+BLADERF.ld.extra_flags = 
+
+BLADERF.upload.maximum_size=131072
+BLADERF.upload.speed=115200
+BLADERF.upload.tool=Reindeer_upload
+
+BLADERF.build.mcu=Reindeer
+BLADERF.build.core=Reindeer
+BLADERF.build.variant=generic
+
+
+
 TRION.name=Efinix Trion T20 BGA256 Development Kit
 
 TRION.platform=Reindeer
