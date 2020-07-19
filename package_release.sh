@@ -18,7 +18,7 @@
 #
 ###############################################################################
 
-Reindeer_version=1.3.5
+Reindeer_version=1.3.6
 Rattlesnake_version=1.3.4
 
 Reindeer_compiler_version=1.0.0
@@ -165,6 +165,7 @@ echo '            {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},'
 echo '            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"},'
 echo '            {"name": "Efinix Trion T20 BGA256 Development Kit"}',
 echo '            {"name": "Nuand bladeRF"}'
+echo '            {"name": "MachXO3D Breakout"}'
 echo '          ],'
 echo '          "toolsDependencies": ['
 echo '            {'

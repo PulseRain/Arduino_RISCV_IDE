@@ -59,6 +59,24 @@ BLADERF.build.core=Reindeer
 BLADERF.build.variant=generic
 
 
+MACHXO3D_BREAKOUT.name=MachXO3D Breakout
+
+MACHXO3D_BREAKOUT.platform=MachXO3D Breakout
+MACHXO3D_BREAKOUT.build.board=_BOARD_MACHXO3D_
+
+MACHXO3D_BREAKOUT.build.extra_flags = -march=rv32i -mabi=ilp32 
+MACHXO3D_BREAKOUT.compiler.c.extra_flags= 
+MACHXO3D_BREAKOUT.compiler.cpp.extra_flags= 
+MACHXO3D_BREAKOUT.ld.extra_flags = 
+
+MACHXO3D_BREAKOUT.upload.maximum_size=32768
+MACHXO3D_BREAKOUT.upload.speed=921600
+MACHXO3D_BREAKOUT.upload.tool=Reindeer_upload
+
+MACHXO3D_BREAKOUT.build.mcu=Reindeer
+MACHXO3D_BREAKOUT.build.core=Reindeer
+MACHXO3D_BREAKOUT.build.variant=generic
+
 
 TRION.name=Efinix Trion T20 BGA256 Development Kit
 
