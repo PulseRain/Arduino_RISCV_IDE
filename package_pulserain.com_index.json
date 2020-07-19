@@ -25,7 +25,7 @@
             {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},
             {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"},
             {"name": "Efinix Trion T20 BGA256 Development Kit"},
-            {"name": "Nuand bladeRF"}
+            {"name": "Nuand bladeRF"},
             {"name": "MachXO3D Breakout"}
           ],
           "toolsDependencies": [
