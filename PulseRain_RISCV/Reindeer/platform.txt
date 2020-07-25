@@ -3,7 +3,7 @@
 ############################################################
 
 name=PulseRain RISC-V (Reindeer)
-version=1.3.6
+version=1.3.7
 
 
 compiler.path           = {runtime.tools.Reindeer_compiler.path}/RISCV_Embedded_GCC/bin/

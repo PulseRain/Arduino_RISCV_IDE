@@ -70,7 +70,7 @@ MACHXO3D_BREAKOUT.compiler.cpp.extra_flags=
 MACHXO3D_BREAKOUT.ld.extra_flags = 
 
 MACHXO3D_BREAKOUT.upload.maximum_size=32768
-MACHXO3D_BREAKOUT.upload.speed=921600
+MACHXO3D_BREAKOUT.upload.speed=115200
 MACHXO3D_BREAKOUT.upload.tool=Reindeer_upload
 
 MACHXO3D_BREAKOUT.build.mcu=Reindeer
