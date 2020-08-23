@@ -287,7 +287,7 @@ void _exit (int status)
 
 
 
- //----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 // isDigit()
 //
 // Parameters:
@@ -309,3 +309,345 @@ uint8_t isDigit(uint8_t c)
   return 0;
   
 } // End of isDigit()
+
+
+//----------------------------------------------------------------------------
+// isAscii()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if the value input is less than 128
+//
+// Remarks:
+//      determine if the input char is a ASCII character 
+//----------------------------------------------------------------------------
+
+uint8_t isAscii(uint8_t c)
+{
+    if (c & 0x80) {
+        return 1;
+    } 
+    
+    return 0;
+} // End of isAscii()
+
+
+//----------------------------------------------------------------------------
+// isAlpha()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if the value input is a letter (capital letter or small letter)
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+
+uint8_t isAlpha(uint8_t c)
+{
+    if (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) {
+        return 1;
+    } 
+    
+    return 0;
+}
+
+
+//----------------------------------------------------------------------------
+// isAlphaNumeric()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if the value input is a letter or digit
+//
+// Remarks:
+//     
+//----------------------------------------------------------------------------
+
+uint8_t isAlphaNumeric(uint8_t c)
+{
+    if (isDigit(c) || isAlpha(c)) {
+        return 1;
+    }
+
+    return 0;
+}
+
+//----------------------------------------------------------------------------
+// isControl()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if the value input is a control character
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+
+uint8_t isControl(uint8_t c)
+{
+  return iscntrl (c);
+}
+
+
+//----------------------------------------------------------------------------
+// isGraph()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if the value input is a character with graphical representation
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+
+uint8_t isGraph (uint8_t c)
+{
+    return (isgraph (c));
+}
+
+
+//----------------------------------------------------------------------------
+// isHexadecimalDigit()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if the value input is a character is a hexadecimal digit character
+//      (0-9, a-f, A-F)
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+uint8_t isHexadecimalDigit(uint8_t c)
+{
+  return (isxdigit (c));
+}
+
+//----------------------------------------------------------------------------
+// toLowerCase()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      The lower case of the input
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+uint8_t toLowerCase(uint8_t c)
+{
+  return tolower (c);
+} // End of toLowerCase()
+
+
+//----------------------------------------------------------------------------
+// toUpperCase()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      The upper case of the input
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+uint8_t toUpperCase(uint8_t c)
+{
+  return (toupper (c));
+} // End of toUpperCase()
+
+
+//----------------------------------------------------------------------------
+// isLowerCase()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if it is a lower case letter
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+
+uint8_t isLowerCase(uint8_t c)
+{
+  return (islower (c));
+} // End of isLowerCase()
+
+//----------------------------------------------------------------------------
+// isUpperCase()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if it is a upper case letter
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+
+uint8_t isUpperCase(uint8_t c)
+{
+  return (isupper (c));
+} // End of isUpperCase()
+
+
+//----------------------------------------------------------------------------
+// isPrintable()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if it is a printable character 
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+
+uint8_t isPrintable(uint8_t c)
+{
+  return (isprint (c));
+} // End of isPrintable()
+
+
+//----------------------------------------------------------------------------
+// isPunct()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if it is a punctuation character
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+uint8_t isPunct(uint8_t c)
+{
+  return (ispunct (c));
+} // End of isPunct()
+
+
+//----------------------------------------------------------------------------
+// isSpace()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if it is a space character
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+
+uint8_t isSpace(uint8_t c)
+{
+    if (c == ' ') {
+        return 1;
+    }
+
+    return 0;
+  
+} // End of isSpace()
+
+//----------------------------------------------------------------------------
+// isWhitespace()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      1 if it is a space or tab
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+
+uint8_t isWhitespace(uint8_t c)
+{
+    if ((c == ' ') || (c == '\t')) {
+        return 1;
+    }
+
+    return 0;
+} // End of isWhitespace()
+
+//----------------------------------------------------------------------------
+// toAscii()
+//
+// Parameters:
+//      c : char value input
+//
+// Return Value:
+//      The lower 7 bits of the input
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+
+uint8_t toAscii(uint8_t c)
+{
+    return (c & 0x7F);
+} // End of toAscii()
+
+
+//----------------------------------------------------------------------------
+// digitalRead()
+//
+// Parameters:
+//      pin : index to the GPIO
+//
+// Return Value:
+//      The HIGH/LOW status of the GPIO
+//
+// Remarks:
+//      
+//----------------------------------------------------------------------------
+
+uint8_t digitalRead(uint8_t pin)
+{
+    uint8_t n = pin >> 3;
+    uint8_t i = pin % 8;
+    
+    uint8_t t = REG_GPIO[n];
+    
+    t = (t >> i) & 1;
+    
+    return t;
+} // End of digitalRead()
+
+
+
+void digitalWrite(uint8_t pin, uint8_t value)
+{
+    uint8_t n = pin >> 3;
+    uint8_t i = pin % 8;
+    
+    uint8_t t = REG_GPIO_OUT[n];
+    
+    if (value) {
+        t |= 1 << i; 
+    } else {
+        t &= ~(1 << i);
+    }
+
+} // End of digitalWrite()
+

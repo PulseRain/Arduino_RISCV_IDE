@@ -53,7 +53,8 @@ constexpr uint32_t REG_UART_RX_FIFO_SYNC_RESET_BIT = 1 << 28;
 //============================================================================================
 // GPIO 
 //============================================================================================
-volatile uint8_t* const REG_GPIO = (uint8_t*)0x20000018;
+volatile uint8_t* const REG_GPIO     = (uint8_t*)0x20000018;
+volatile uint8_t* const REG_GPIO_OUT = (uint8_t*)0x20000030;
 
 #define GPIO_P0  (REG_GPIO[0])
 #define GPIO_P1  (REG_GPIO[1])
