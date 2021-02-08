@@ -12,6 +12,43 @@
         {
           "name": "PulseRain Reindeer",
           "architecture": "Reindeer",
+          "version": "1.3.9",
+          "category": "Contributed",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.3.9.tar.gz",
+          "archiveFileName": "Reindeer_1.3.9.tar.gz",
+          "checksum": "SHA-256:7bc938a4716ef897b839e1857fc61854415630a817e7c520560afa49ec5fca6d",
+          "size": "31547",
+          "help": {
+            "online": "http://riscv.us"
+          },
+          "boards": [
+            {"name": "Gnarly Grey UPDuinoV2 Board (Lattice UP5K)"},
+            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"},
+            {"name": "Efinix Trion T20 BGA256 Development Kit"},
+            {"name": "Nuand bladeRF"},
+            {"name": "MachXO3D Breakout"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "2.1.0",
+              "name": "Reindeer_upload"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.1.0",
+              "name": "Reindeer_compiler"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "hex_total_size"
+            }
+          ]
+        },
+        {
+          "name": "PulseRain Reindeer",
+          "architecture": "Reindeer",
           "version": "1.3.8",
           "category": "Contributed",
           "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_1.3.8.tar.gz",
@@ -725,6 +762,19 @@
               "archiveFileName": "Reindeer_upload_2.0.0.tar.gz",
               "checksum": "SHA-256:226d4c529ea6b3e3ef11581594159c234d5884930e8f2faf164f180ca3f569f6",
               "size": "7065477"
+            }
+          ]
+        },
+        {
+          "version": "1.1.0",
+          "name": "Reindeer_compiler",
+          "systems": [
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/Reindeer_compiler_1.1.0.tar.gz",
+              "archiveFileName": "Reindeer_compiler_1.1.0.tar.gz",
+              "checksum": "SHA-256:5785be30db236830791484162e35614e85183b5ebc4f73a3edd13390d43c235e",
+              "size": "100429503"
             }
           ]
         },
