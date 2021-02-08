@@ -5,31 +5,33 @@ This is the **GNU MCU Eclipse** (formerly GNU ARM Eclipse) version of the
 
 ## Compliance
 
-This release closely follows the official 
-[RISC-V distribution](https://github.com/riscv/riscv-gcc) maintained by 
-[SiFive](https://www.sifive.com).
+Starting with 8.2.0-2, the GNU MCU Eclipse RISC-V GCC follows
+the official [SiFive releases](https://github.com/sifive/freedom-tools/releases), 
+with as little differences as possible. Previously it followed the generic
+[RISC-V releases](https://github.com/riscv/riscv-gnu-toolchain/releases).
 
-It is more or less similar to the 20180928 release, except support for 
-SiFive specific CLIC interrupts, which was not included.
+This release is based on the 
+[v2019.02.0](https://github.com/sifive/freedom-tools/releases/tag/v2019.02.0) 
+release, and includes the SiFive extensions (like CLIC interrupts).
 
 The following commits were used:
 
-- the [riscv/riscv-gcc](https://github.com/riscv/riscv-gcc) project, 
-branch `riscv-gcc-8.1.0`, commit
-[3c148a7e6ea](https://github.com/gnu-mcu-eclipse/riscv-none-gcc/commit/3c148a7e6ea1379e3a8e8b5350ec03a72e5d4137)
-from from July 3rd, 2018
-- the [riscv/riscv-binutils-gdb](https://github.com/riscv/riscv-binutils-gdb) 
-project, branch `riscv-binutils-2.30`, commit 
-[0d2fb1b7ff](https://github.com/gnu-mcu-eclipse/riscv-binutils-gdb/commit/0d2fb1b7ff9b94e40352306f1f8857b863c6f787)
-from Aug 11th, 2018
-- the [riscv/riscv-newlib](https://github.com/riscv/riscv-newlib) project,
-commit [77e11e180](https://github.com/gnu-mcu-eclipse/riscv-newlib/commit/77e11e1800f57cac7f5468b2bd064100a44755d4)
-from July 12th, 2018
+- the [sifive/riscv-gcc](https://github.com/sifive/riscv-gcc) project, 
+branch `sifive-gcc-8.2.0`, commit
+[242abcaff6](https://github.com/sifive/riscv-gcc/tree/242abcaff697d0a1ea12dccc975465e1bfeb8331)
+from from 5 April 2019
+- the [sifive/riscv-binutils-gdb](https://github.com/sifive/riscv-binutils-gdb) 
+project, branch `sifive-binutils-2.32`, commit 
+[164267155c](https://github.com/sifive/riscv-binutils-gdb/tree/164267155c96f91472a539ca78ac919993bc5b4e)
+from 28 February 2019
+- the [sifive/riscv-newlib](https://github.com/sifive/riscv-newlib) project,
+commit [42c2e3fb9f](https://github.com/sifive/riscv-newlib/tree/42c2e3fb9f557d59b76d1a64bb6fb32707ff4530)
+from 17 November 2018
 
-GDB is a bit special, since it is only partly upstreamed and the RISC-V repos 
-are no longer updated, so the current build uses 
-`git://sourceware.org/git/binutils-gdb.git`, the `7dd36a6f1c` commit from 
-Aug 23rd, 2018 (same as the SiFive release).
+GDB was upstreamed and does not require SiFive specific patches, 
+so the current build uses 
+`git://sourceware.org/git/binutils-gdb.git`, the `c8aa0bb` commit from 
+28 Feb 2019.
 
 ## Changes
 
@@ -41,15 +43,17 @@ options are supported, and there are minimal functional changes
 
 ## newlib-nano
 
-The only notable addition is support for **newlib-nano**, using the 
+Support for **newlib-nano** is available using the 
 `--specs=nano.specs` option. For better results, this option must be 
-added to both compile and link time (the next release of the GNU MCU 
-Eclipse plug-ins will add support for this).
+added to both compile and link time.
 
 If no syscalls are needed, `--specs=nosys.specs` can be used at link 
 time to provide empty implementations for the POSIX system calls.
 
 The libraries are compiled with `-O2 -mcmodel=medany`.
+
+Warning: It is mandatory for the applications to be compiled with 
+`-mcmodel=medany`, otherwise the link will fail.
 
 ## Documentation
 
@@ -69,9 +73,9 @@ please report them via
 For issues related to the toolchain functionality (compiler, newlib
 gdb, etc) please report them via their original RISC-V projects:
 
-- [riscv/riscv-gcc](https://github.com/riscv/riscv-gcc/issues)
-- [riscv/riscv-newlib](https://github.com/riscv/riscv-newlib/issues)
-- [riscv/riscv-binutils-gdb](https://github.com/riscv/riscv-binutils-gdb/issues)
+- [sifive/riscv-gcc](https://github.com/sifive/riscv-gcc/issues)
+- [sifive/riscv-newlib](https://github.com/sifive/riscv-newlib/issues)
+- [sifive/riscv-binutils-gdb](https://github.com/sifive/riscv-binutils-gdb/issues)
 
 ## More info
 

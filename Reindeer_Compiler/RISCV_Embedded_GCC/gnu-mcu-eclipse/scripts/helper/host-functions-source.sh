@@ -12,6 +12,7 @@ function host_get_current_date()
   DISTRIBUTION_FILE_DATE=${DISTRIBUTION_FILE_DATE:-$(date -u +%Y%m%d-%H%M)}
 
   # Leave a track of the start date, in case of resume needed.
+  mkdir -p "${HOST_WORK_FOLDER_PATH}"
   touch "${HOST_WORK_FOLDER_PATH}/${DISTRIBUTION_FILE_DATE}"
   echo
   echo "DISTRIBUTION_FILE_DATE=\"${DISTRIBUTION_FILE_DATE}\""
@@ -37,7 +38,10 @@ function host_stop_timer()
     local delta_minutes=$(((delta_seconds+30)/60))
     echo "Duration: ${delta_minutes} minutes."
   fi
+}
 
+function host_notify_completed()
+{
   if [ "${HOST_UNAME}" == "Darwin" ]
   then
     say "Wake up, the build completed successfully"
@@ -46,14 +50,20 @@ function host_stop_timer()
 
 # -----------------------------------------------------------------------------
 
+# Detect the machine the build runs on.
 function host_detect() 
 {
   echo
   uname -a
 
-  HOST_DISTRO_NAME=""
   HOST_UNAME="$(uname)"
   HOST_MACHINE="$(uname -m)"
+
+  HOST_DISTRO_NAME="?" # Linux distribution name (Ubuntu|CentOS|...)
+  HOST_DISTRO_LC_NAME="?" # Same, in lower case.
+
+  HOST_NODE_ARCH="?" # Node.js process.arch (x32|x64|arm|arm64)
+  HOST_NODE_PLATFORM="?" # Node.js process.platform (darwin|linux|win32)
 
   if [ "${HOST_UNAME}" == "Darwin" ]
   then
@@ -65,75 +75,471 @@ function host_detect()
     HOST_DISTRO_NAME=Darwin
     HOST_DISTRO_LC_NAME=darwin
 
+    HOST_NODE_ARCH="x64" # For now.
+    HOST_NODE_PLATFORM="darwin"
+
   elif [ "${HOST_UNAME}" == "Linux" ]
   then
     # ----- Determine distribution name and word size -----
 
-    # uname -p -> x86_64/i686
-    # uname -m -> x86_64/i686
-
-    set +e
-    HOST_DISTRO_NAME=$(lsb_release -si)
-    set -e
-
-    if [ -z "${HOST_DISTRO_NAME}" ]
-    then
-      echo "Please install the lsb core package and rerun."
-      HOST_DISTRO_NAME="Linux"
-    fi
+    # uname -p -> x86_64|i686 (unknown in recent versions, use -m)
+    # uname -m -> x86_64|i686
 
     if [ "${HOST_MACHINE}" == "x86_64" ]
     then
       HOST_BITS="64"
+      HOST_NODE_ARCH="x64"
     elif [ "${HOST_MACHINE}" == "i686" ]
     then
       HOST_BITS="32"
+      HOST_NODE_ARCH="x32"
     else
       echo "Unknown uname -m ${HOST_MACHINE}"
       exit 1
     fi
 
+    HOST_NODE_PLATFORM="linux"
+
+    local lsb_path=$(which lsb_release)
+    if [ -z "${lsb_path}" ]
+    then
+      echo "Please install the lsb core package and rerun."
+      exit 1
+    fi
+
+    HOST_DISTRO_NAME=$(lsb_release -si)
     HOST_DISTRO_LC_NAME=$(echo ${HOST_DISTRO_NAME} | tr "[:upper:]" "[:lower:]")
 
   else
-    echo "Unknown uname ${HOST_UNAME}"
+    echo "Unsupported uname ${HOST_UNAME}"
     exit 1
   fi
 
   echo
   echo "Running on ${HOST_DISTRO_NAME} ${HOST_BITS}-bit."
 
-  GROUP_ID=$(id -g)
   USER_ID=$(id -u)
+  USER_NAME="$(id -u -n)"
+  GROUP_ID=$(id -g)
+  GROUP_NAME="$(id -g -n)"
+
+  TARGET_ARCH="${HOST_NODE_ARCH}"
+  TARGET_PLATFORM="${HOST_NODE_PLATFORM}"
+
+  IS_NATIVE=""
+  # Redefine it to "y" to run as root inside the container.
+  CONTAINER_RUN_AS_ROOT=${CONTAINER_RUN_AS_ROOT:-""}
+  HAS_WINPTHREAD=${HAS_WINPTHREAD:-""}
 }
 
 # -----------------------------------------------------------------------------
+
+function host_prepare_cache()
+{
+  # The folder that caches all downloads is in HOME
+  if [ "$(uname)" == "Darwin" ] 
+  then
+    HOST_CACHE_FOLDER_PATH=${HOST_CACHE_FOLDER_PATH:-"${HOME}/Library/Caches/XBB"}
+    CONTAINER_CACHE_FOLDER_PATH="/Host${HOME}/Library/Caches/XBB"
+  else
+    HOST_CACHE_FOLDER_PATH=${HOST_CACHE_FOLDER_PATH:-"${HOME}/.cache/XBB"}
+    CONTAINER_CACHE_FOLDER_PATH="/Host${HOST_CACHE_FOLDER_PATH}"
+  fi
+
+  mkdir -p "${HOST_CACHE_FOLDER_PATH}"
+}
+
+function host_options()
+{
+  local help_message="$1"
+  shift
+
+  ACTION=""
+
+  DO_BUILD_WIN32=""
+  DO_BUILD_WIN64=""
+  DO_BUILD_LINUX32=""
+  DO_BUILD_LINUX64=""
+  DO_BUILD_OSX=""
+  ENV_FILE=""
+
+  argc=$#
+  declare -a argv
+  argv=( $@ )
+  if [ ! -z "${DEBUG}" ]
+  then
+    echo ${argv[@]-}
+  fi
+  i=0
+
+  # Must be declared by the caller.
+  # declare -a rest
+
+
+  # Identify some of the options. The rest are collected and passed
+  # to the container script.
+  while [ $i -lt $argc ]
+  do
+
+    arg="${argv[$i]}"
+    case "${arg}" in
+
+      clean|cleanall|preload-images)
+        ACTION="${arg}"
+        ;;
+
+      --win32|--windows32)
+        DO_BUILD_WIN32="y"
+        ;;
+
+      --win64|--windows64)
+        DO_BUILD_WIN64="y"
+        ;;
+
+      --linux32)
+        DO_BUILD_LINUX32="y"
+        ;;
+
+      --linux64)
+        DO_BUILD_LINUX64="y"
+        ;;
+
+      --osx)
+        DO_BUILD_OSX="y"
+        ;;
+
+      --all)
+        DO_BUILD_WIN32="y"
+        DO_BUILD_WIN64="y"
+        DO_BUILD_LINUX32="y"
+        DO_BUILD_LINUX64="y"
+        if [ "$(uname)" == "Darwin" ] 
+        then
+          DO_BUILD_OSX="y"
+        fi
+        ;;
+
+      --env-file)
+        ((++i))
+        ENV_FILE="${argv[$i]}"
+        if [ ! -f "${ENV_FILE}" ];
+        then
+          echo "The specified environment file \"${ENV_FILE}\" does not exist, exiting..."
+          exit 1
+        fi
+        ;;
+
+      --date)
+        ((++i))
+        DISTRIBUTION_FILE_DATE="${argv[$i]}"
+        ;;
+
+      --help)
+        echo "Usage:"
+        # Some of the options are processed by the container script.
+        echo "${help_message}"
+        echo
+        exit 1
+        ;;
+
+      *)
+        # Collect all other in an array. Append to the end.
+        # Will be later processed by the container script.
+        set +u
+        rest[${#rest[*]}]="$arg"
+        set -u
+        ;;
+
+    esac
+    ((++i))
+
+  done
+
+  DO_BUILD_ANY="${DO_BUILD_OSX}${DO_BUILD_LINUX64}${DO_BUILD_WIN64}${DO_BUILD_LINUX32}${DO_BUILD_WIN32}"
+
+  # The ${rest[@]} options will be passed to the inner script.
+  if [ ! -z "${DEBUG}" ]
+  then
+    echo ${rest[@]-}
+  fi
+}
+
+function host_options_windows()
+{
+  local help_message="$1"
+  shift
+
+  ACTION=""
+
+  DO_BUILD_WIN32=""
+  DO_BUILD_WIN64=""
+
+  # Kept, since they are used in various common functions.
+  DO_BUILD_LINUX32=""
+  DO_BUILD_LINUX64=""
+  DO_BUILD_OSX=""
+
+  ENV_FILE=""
+
+  argc=$#
+  declare -a argv
+  argv=( $@ )
+  if [ ! -z "${DEBUG}" ]
+  then
+    echo ${argv[@]-}
+  fi
+  i=0
+
+  # Must be declared by the caller.
+  # declare -a rest
+
+
+  # Identify some of the options. The rest are collected and passed
+  # to the container script.
+  while [ $i -lt $argc ]
+  do
+
+    arg="${argv[$i]}"
+    case "${arg}" in
+
+      clean|cleanall|preload-images)
+        ACTION="${arg}"
+        ;;
+
+      --win32|--windows32)
+        DO_BUILD_WIN32="y"
+        ;;
+
+      --win64|--windows64)
+        DO_BUILD_WIN64="y"
+        ;;
+
+      --all)
+        DO_BUILD_WIN32="y"
+        DO_BUILD_WIN64="y"
+        ;;
+
+      --env-file)
+        ((++i))
+        ENV_FILE="${argv[$i]}"
+        if [ ! -f "${ENV_FILE}" ];
+        then
+          echo "The specified environment file \"${ENV_FILE}\" does not exist, exiting..."
+          exit 1
+        fi
+        ;;
+
+      --date)
+        ((++i))
+        DISTRIBUTION_FILE_DATE="${argv[$i]}"
+        ;;
+
+      --help)
+        echo "Usage:"
+        # Some of the options are processed by the container script.
+        echo "${help_message}"
+        echo
+        exit 1
+        ;;
+
+      *)
+        # Collect all other in an array. Append to the end.
+        # Will be later processed by the container script.
+        set +u
+        rest[${#rest[*]}]="$arg"
+        set -u
+        ;;
+
+    esac
+    ((++i))
+
+  done
+
+  DO_BUILD_ANY="${DO_BUILD_WIN64}${DO_BUILD_WIN32}"
+
+  # The ${rest[@]} options will be passed to the inner script.
+  if [ ! -z "${DEBUG}" ]
+  then
+    echo ${rest[@]-}
+  fi
+}
+
+function host_native_options()
+{
+  local help_message="$1"
+  shift
+
+  ACTION=""
+
+  DO_BUILD_WIN=""
+  IS_DEBUG=""
+  IS_DEVELOP=""
+  WITH_STRIP=""
+  IS_NATIVE="y"
+
+  JOBS=""
+
+  while [ $# -gt 0 ]
+  do
+    case "$1" in
+
+      clean|cleanlibs|cleanall)
+        ACTION="$1"
+        ;;
+
+      --win|--windows)
+        DO_BUILD_WIN="y"
+        ;;
+
+      --debug)
+        IS_DEBUG="y"
+        ;;
+
+      --develop)
+        IS_DEVELOP="y"
+        ;;
+
+      --jobs)
+        shift
+        JOBS=$1
+        ;;
+
+    --help)
+        echo "Build a local/native GNU MCU Eclipse ARM QEMU."
+        echo "Usage:"
+        # Some of the options are processed by the container script.
+        echo "${help_message}"
+        echo
+        exit 0
+        ;;
+
+      *)
+        echo "Unknown action/option $1"
+        exit 1
+        ;;
+
+    esac
+    shift
+
+  done
+
+  if [ "${DO_BUILD_WIN}" == "y" ]
+  then
+    if [ "${HOST_NODE_PLATFORM}" == "linux" ]
+    then
+      TARGET_PLATFORM="win32"
+    else
+      echo "Windows cross builds are available only on GNU/Linux."
+      exit 1
+    fi
+  fi
+}
+
+function host_common()
+{
+  if [ -f "${script_folder_path}/VERSION" ]
+  then
+    # When running from the distribution folder.
+    RELEASE_VERSION=${RELEASE_VERSION:-"$(cat "${script_folder_path}"/VERSION)"}
+  fi
+
+  echo
+  echo "Preparing release ${RELEASE_VERSION}..."
+
+  echo
+  defines_script_path="${script_folder_path}/defs-source.sh"
+  echo "Definitions source script: \"${defines_script_path}\"."
+  source "${defines_script_path}"
+
+  # -----------------------------------------------------------------------------
+
+  common_helper_functions_script_path="${script_folder_path}/helper/common-functions-source.sh"
+  echo "Common helper functions source script: \"${common_helper_functions_script_path}\"."
+  source "${common_helper_functions_script_path}"
+
+  # May override some of the helper/common definitions.
+  common_functions_script_path="${script_folder_path}/common-functions-source.sh"
+  if [ -f "${common_functions_script_path}" ]
+  then
+    echo "Common functions source script: \"${common_functions_script_path}\"."
+    source "${common_functions_script_path}"
+  fi
+
+  # -----------------------------------------------------------------------------
+
+  # The Work folder is in HOME.
+  if [ "${IS_NATIVE}" != "y" ]
+  then
+    HOST_WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-${RELEASE_VERSION}"}
+  else
+    HOST_WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-dev"}
+  fi
+  CONTAINER_WORK_FOLDER_PATH="/Host${HOST_WORK_FOLDER_PATH}"
+
+  SOURCES_FOLDER_PATH="${SOURCES_FOLDER_PATH:-"${HOST_WORK_FOLDER_PATH}/sources"}"
+
+  # The names of the two Docker images used for the build.
+  # docker run --interactive --tty ilegeul/centos:6-xbb-v2.1
+  docker_linux64_image=${docker_linux64_image:-"ilegeul/centos:6-xbb-v2.1"}
+  docker_linux32_image=${docker_linux32_image:-"ilegeul/centos32:6-xbb-v2.1"}
+
+  do_actions
+
+  host_prepare_cache
+
+  CONTAINER_BUILD_SCRIPT_REL_PATH="build.git/scripts/${CONTAINER_SCRIPT_NAME}"
+  echo "Container build script: \"${HOST_WORK_FOLDER_PATH}/${CONTAINER_BUILD_SCRIPT_REL_PATH}\"."
+
+  # ---------------------------------------------------------------------------
+
+  mkdir -p "${HOST_WORK_FOLDER_PATH}"
+  mkdir -p "${SOURCES_FOLDER_PATH}"
+
+  # ---------------------------------------------------------------------------
+
+  # Set the DISTRIBUTION_FILE_DATE.
+  host_get_current_date
+
+  # ---------------------------------------------------------------------------
+
+  host_start_timer
+
+  host_prepare_prerequisites
+
+  # ---------------------------------------------------------------------------
+
+  copy_build_git
+}
 
 function host_prepare_prerequisites() 
 {
   if [ "${HOST_UNAME}" == "Darwin" ]
   then
-    local hb_folder="${HOME}/opt/homebrew/xbb"
+    local xbb_folder
+
     
     local must_install=""
-    # Check local Homebrew.
-    if [ ! -d "${hb_folder}" ]
-    then
-      must_install="y"
-    else
 
-      PATH="${hb_folder}/bin":${PATH}
-      export PATH
+    if [ -d "${HOME}/opt/xbb" ]
+    then
+      xbb_folder="${HOME}/opt/xbb"
+    elif [ -d "${HOME}/opt/homebrew/xbb" ]
+    then
+      xbb_folder="${HOME}/opt/homebrew/xbb"
+    else
+      must_install="y"
+    fi
+
+
+    if [ ! -z "${xbb_folder}" ]
+    then
 
       echo
-      echo "Checking Homebrew in '${hb_folder}'..."
-      set +e
-      brew --version | grep 'Homebrew '
-      if [ $? -ne 0 ]
+      echo "Checking XBB in '${xbb_folder}'..."
+      if [ ! -f "${xbb_folder}/xbb-source.sh" ]
       then
         must_install="y"
       fi
-      set -e
       
     fi
 
@@ -141,7 +547,9 @@ function host_prepare_prerequisites()
     then
 
       echo
-      echo "Please install the Homebrew XBB and rerun."
+      echo "Please install the macOS XBB and rerun."
+      echo "https://github.com/xpack/xpack-build-box/tree/master/macos"
+      
       exit 1
 
     fi
@@ -158,7 +566,7 @@ function host_prepare_prerequisites()
         must_install="y"
       else
 
-        PATH="${tl_folder}/bin/x86_64-darwin":$PATH
+        PATH="${tl_folder}/bin/x86_64-darwin:${PATH}"
         export PATH
 
         echo
@@ -179,10 +587,8 @@ function host_prepare_prerequisites()
         echo
         echo "Please install TeX Live and rerun."
         echo "Alternatively restart the build script using '--without-pdf'."
-        # echo 
-        # echo "mkdir -p \${HOME}/opt"
-        # echo "git clone https://github.com/ilg-ul/opt-install-scripts \${HOME}/opt/install-scripts.git"
-        # echo "bash \${HOME}/opt/install-scripts.git/install-texlive.sh"
+        echo "https://github.com/xpack/xpack-build-box/blob/master/macos/README.md#install-tex"
+
         exit 1
 
       fi
@@ -190,14 +596,7 @@ function host_prepare_prerequisites()
     fi # -z "${no_pdf}"
   fi # "${HOST_UNAME}" == "Darwin"
 
-  # The folder that caches all downloads is in HOME
-  if [ "$(uname)" == "Darwin" ] 
-  then
-    HOST_CACHE_FOLDER_PATH=${HOST_CACHE_FOLDER_PATH:-"${HOME}/Library/Caches/XBB"}
-  else
-    HOST_CACHE_FOLDER_PATH=${HOST_CACHE_FOLDER_PATH:-"${HOME}/.caches/XBB"}
-  fi
-  CONTAINER_CACHE_FOLDER_PATH="/Host/Caches/XBB"
+  host_prepare_cache
 
   # The host script will pass to the container script
   # various environment variables.
@@ -228,11 +627,6 @@ function host_prepare_docker()
 
 function host_build_target() 
 {
-  if [ -n "${DEBUG}" ]
-  then
-    echo "host_build_target $@ started."
-  fi
-
   message="$1"
   shift
 
@@ -240,9 +634,13 @@ function host_build_target()
   echo "================================================================================"
   echo "=== ${message}"
 
+  echo
+  echo $@
+
   local container_script_path=""
-  local target_os=""
-  local target_bits="-"
+  local target_platform="${HOST_NODE_PLATFORM}"
+  local target_arch="${HOST_NODE_ARCH}"
+  local target_bits="${HOST_BITS}"
   # If the docker image is not set, it is a native build.
   local docker_image=""
   local build_binaries_path=""
@@ -257,8 +655,13 @@ function host_build_target()
         shift 2
         ;;
 
-      --target-os)
-        target_os="$2"
+      --target-platform)
+        target_platform="$2"
+        shift 2
+        ;;
+
+      --target-arch)
+        target_arch="$2"
         shift 2
         ;;
 
@@ -298,23 +701,6 @@ function host_build_target()
 
   # ---------------------------------------------------------------------------
 
-  if [ \( -z "${target_os}" \) -a \( -n "${HOST_UNAME}" \) ]
-  then
-    # Build native
-    if [ "${HOST_UNAME}" == "Darwin" ]
-    then
-      target_os="macos"
-      target_bits="-"
-    elif [ "${HOST_UNAME}" == "Linux" ]
-    then
-      target_os="linux"
-      target_bits="-"
-    else
-      echo "Unsupported host ${HOST_UNAME}, exit."
-      exit 1
-    fi
-  fi
-
   mkdir -p "$(dirname "${HOST_DEFINES_SCRIPT_PATH}")"
   echo "${RELEASE_VERSION}" >"$(dirname "${HOST_DEFINES_SCRIPT_PATH}")"/VERSION
 
@@ -325,11 +711,18 @@ function host_build_target()
 
   echo "DISTRIBUTION_FILE_DATE=\"${DISTRIBUTION_FILE_DATE}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
 
-  echo "TARGET_OS=\"${target_os}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
+  echo "TARGET_PLATFORM=\"${target_platform}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
+  echo "TARGET_ARCH=\"${target_arch}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
   echo "TARGET_BITS=\"${target_bits}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
+
   echo "HOST_UNAME=\"${HOST_UNAME}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
-  echo "GROUP_ID=\"${GROUP_ID}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
+
   echo "USER_ID=\"${USER_ID}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
+  echo "USER_NAME=\"${USER_NAME}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
+  echo "GROUP_ID=\"${GROUP_ID}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
+  echo "GROUP_NAME=\"${GROUP_NAME}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
+
+  echo "CONTAINER_RUN_AS_ROOT=\"${CONTAINER_RUN_AS_ROOT}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
 
   echo "HOST_WORK_FOLDER_PATH=\"${HOST_WORK_FOLDER_PATH}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
   echo "CONTAINER_WORK_FOLDER_PATH=\"${CONTAINER_WORK_FOLDER_PATH}\"" >>"${HOST_DEFINES_SCRIPT_PATH}"
@@ -353,7 +746,7 @@ function host_build_target()
     host_run_docker_script \
       --script "${container_script_path}" \
       --docker-image "${docker_image}" \
-      --docker-container-name "${APP_LC_NAME}-${target_os}${target_bits}-build" \
+      --docker-container-name "${APP_LC_NAME}-${target_platform}-${target_arch}-build" \
       --env-file "${env_file}" \
       --host-uname "${HOST_UNAME}" \
       -- \
@@ -480,8 +873,15 @@ function host_run_docker_script()
   echo
   echo "Running script \"$(basename "${docker_script}")\" inside docker image \"${docker_image}\"..."
 
+
+  local env_file_option=""
   # Run the inner script in a fresh Docker container.
   if [ -n "${env_file}" -a -f "${env_file}" ]
+  then
+    env_file_option="--env-file=\"${env_file}\""
+  fi
+
+  if [ "${CONTAINER_RUN_AS_ROOT}" == "y" ]
   then
 
     docker run \
@@ -491,13 +891,33 @@ function host_run_docker_script()
       --workdir="/root" \
       --volume="${HOST_WORK_FOLDER_PATH}/:${CONTAINER_WORK_FOLDER_PATH}" \
       --volume="${HOST_CACHE_FOLDER_PATH}/:${CONTAINER_CACHE_FOLDER_PATH}" \
-      --env-file="${env_file}" \
-      ${docker_image} \
-      /bin/bash ${DEBUG} "${docker_script}" \
-        $@
+      ${env_file_option} \
+      "${docker_image}" \
+      /bin/bash ${DEBUG} "${docker_script}" $@
 
   else
 
+    # This is a bit tricky, since it needs to do multiple actions in
+    # one go: add a new user and run the script with that user credentials,
+    # including passing the extra args (in the middle of the string).
+    #
+    # From the [bash manual](https://www.gnu.org/software/bash/manual/bash.html):
+    # ($*) Expands to the positional parameters, starting from one. 
+    # When the expansion is not within double quotes, each positional 
+    # parameter expands to a separate word. In contexts where it is 
+    # performed, those words are subject to further word splitting and 
+    # pathname expansion. When the expansion occurs within double quotes, 
+    # it expands to a single word with the value of each parameter separated 
+    # by the first character of the IFS special variable. That is, "$*" 
+    # is equivalent to "$1c$2c…", where c is the first character of the 
+    # value of the IFS variable. If IFS is unset, the parameters are 
+    # separated by spaces. If IFS is null, the parameters are joined 
+    # without intervening separators.
+    local ifs="${IFS}"
+    IFS=" "
+    local cmd_string="groupadd -g ${GROUP_ID} ${GROUP_NAME} && useradd -u ${USER_ID} -g ${GROUP_ID} ${USER_NAME} && su -c \"DEBUG=${DEBUG} bash ${docker_script} $*\" ${USER_NAME}"
+    IFS="${ifs}"
+ 
     docker run \
       --name="${docker_container_name}" \
       --tty \
@@ -505,9 +925,9 @@ function host_run_docker_script()
       --workdir="/root" \
       --volume="${HOST_WORK_FOLDER_PATH}/:${CONTAINER_WORK_FOLDER_PATH}" \
       --volume="${HOST_CACHE_FOLDER_PATH}/:${CONTAINER_CACHE_FOLDER_PATH}" \
-      ${docker_image} \
-      /bin/bash ${DEBUG} "${docker_script}" \
-        $@
+      ${env_file_option} \
+      "${docker_image}" \
+      /bin/bash ${DEBUG} -c "${cmd_string}"
 
   fi
 
@@ -522,8 +942,9 @@ function host_show_sha() {
   if [ -d "${HOST_WORK_FOLDER_PATH}/${DEPLOY_FOLDER_NAME}" ]
   then
     echo
+    echo "SHA signatures..."
     set +e
-    cat "${HOST_WORK_FOLDER_PATH}/${DEPLOY_FOLDER_NAME}/"*.sha
+    cat "${HOST_WORK_FOLDER_PATH}/${DEPLOY_FOLDER_NAME}"/*.sha
     set -e
   fi
 }

@@ -19,8 +19,8 @@ import gdb
 import os
 import os.path
 
-pythondir = '/Host/Work/riscv-none-gcc-8.1.0-2/install/centos64/riscv-none-gcc/share/gcc-riscv-none-embed'
-libdir = '/Host/Work/riscv-none-gcc-8.1.0-2/install/centos64/riscv-none-gcc/riscv-none-embed/lib/rv32i/ilp32'
+pythondir = '/Host/home/ilg/Work/riscv-none-gcc-8.2.0-2.2/linux-x64/install/riscv-none-gcc/share/gcc-riscv-none-embed'
+libdir = '/Host/home/ilg/Work/riscv-none-gcc-8.2.0-2.2/linux-x64/install/riscv-none-gcc/riscv-none-embed/lib/rv32i/ilp32'
 
 # This file might be loaded when there is no current objfile.  This
 # can happen if the user loads it manually.  In this case we don't

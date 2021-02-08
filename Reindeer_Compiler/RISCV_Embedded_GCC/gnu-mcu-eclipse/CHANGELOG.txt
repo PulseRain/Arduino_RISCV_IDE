@@ -1,6 +1,28 @@
 
 The changes applied to the original projects, in reverse chronological order:
 
+[2019-05-22]
+
+- v8.2.0-2.2 released
+- fix GDB build on macOS (use clang)
+- add compiler tests
+- add gdb set language tests
+
+[2019-04-25]
+
+- v8.2.0-2.1 released
+
+[2019-04-17]
+
+- prepare v8.2.0-2 (8.2.0-1 was skipped)
+- update to the latest SiFive commits
+  - `sifive-binutils-2.32`
+  - `sifive-gcc-8.2.0`
+  - `sifive-newlib-3.0.0`
+- for GDB use the FSF c8aa0bb (28 Feb 2019)
+- update for XBB v2.1; no need for static, libs are ok.
+- the defaults were changed to rv32imac/ilp32
+
 [2018-10-19]
 
 - v8.1.0-2-20181019 released
