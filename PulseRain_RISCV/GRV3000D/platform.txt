@@ -1,0 +1,120 @@
+############################################################
+# PulseRain RISCV
+############################################################
+
+name=PulseRain RISC-V (GRV3000D)
+version=1.1.2
+
+
+compiler.path           = {runtime.tools.GRV3000D_compiler.path}/RISCV_Embedded_GCC/bin/
+compiler.define= -D__GXX_EXPERIMENTAL_CXX0X__ -DIDE=Arduino "-I{compiler.path}../riscv-none-embed/include"
+
+build.extra_flags       =
+build.flags             = 
+
+compiler.c.cmd          = riscv-none-embed-gcc
+compiler.c.flags        =  -W -c --specs=nosys.specs -Os -fdata-sections -ffunction-sections -fno-exceptions -fno-unwind-tables 
+compiler.c.extra_flags  =
+compiler.elf.flags      =
+compiler.elf.cmd        = riscv-none-embed-gcc
+
+compiler.cpp.cmd        = riscv-none-embed-g++
+compiler.cpp.flags      = -W -c --specs=nosys.specs -Os -fdata-sections -ffunction-sections -fno-exceptions -fno-unwind-tables -fno-rtti --std=c++17
+compiler.cpp.extra_flags = 
+
+
+compiler.ld.cmd = riscv-none-embed-g++
+compiler.ld.flags= -Wl,--gc-sections -static -lm --specs=nosys.specs
+compiler.ld.extra_flags=
+compiler.ldscript=GRV3000D.ld
+
+compiler.S.flags=--specs=nosys.specs -Os -fno-builtin-printf -c
+compiler.S.cmd=riscv-none-embed-as
+
+
+compiler.ar.cmd=riscv-none-embed-ar
+compiler.ar.flags=rcs
+
+compiler.objcopy.cmd=riscv-none-embed-objcopy
+compiler.objcopy.eep.flags=-O ihex 
+
+compiler.elf2hex.cmd=riscv-none-embed-objcopy
+
+compiler.dump.cmd = riscv-none-embed-objdump
+
+compiler.size.path = {runtime.tools.hex_total_size.path}
+compiler.size.cmd = hex_total_size
+
+compiler.cpudef=-mprocessor=
+compiler.upload.cmd=GRV3000D_upload
+library.core.path=./hardware/GRV3000D
+library.path=./hardware/GRV3000D
+
+
+build.variant=generic
+build.ldscript.path={build.variant.path}
+
+core.header=Arduino.h
+
+
+compiler.c.elf.extra_flags= -I{build.core.path}
+compiler.S.extra_flags=
+compiler.cpp.extra_flags=
+compiler.ar.extra_flags=
+
+compiler.objcopy.eep.flags = -O binary
+compiler.objcopy.eep.extra_flags=
+
+compiler.elf2hex.flags = -O ihex
+compiler.elf2hex.extra_flags=
+
+compiler.dump.flags= --disassemble-all --disassemble-zeroes --section=.text --section=.text.startup --section=.data --section=.rodata --section=.sdata --section=.sdata2 --section=.init_array --section=.fini_array
+compiler.dump.extra_flags=
+
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {build.flags} {compiler.c.flags} {compiler.define} {compiler.c.extra_flags} {build.extra_flags} -I{build.path}/sketch {includes} "{source_file}" -o "{object_file}"
+
+
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {build.flags} {compiler.cpp.flags} {compiler.define} {compiler.cpp.extra_flags} {build.extra_flags} -I{build.path}/sketch {includes} "{source_file}" -o "{object_file}"
+
+recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} -mprocessor={build.mcu} -DF_CPU={build.f_cpu}  -DARDUINO={runtime.ide.version} -D{build.board} {compiler.define} "{compiler.cpp.extra_flags}" {build.extra_flags} -I{build.path}/sketch {includes} "{source_file}" -o "{object_file}"
+
+recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}"  {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}"  "{object_file}"
+
+recipe.c.combine.pattern="{compiler.path}{compiler.ld.cmd}" -T {build.ldscript.path}/{compiler.ldscript} {build.flags} {compiler.ld.flags} {build.extra_flags} -o "{build.path}/{build.project_name}.elf" {object_files} "{build.path}/{archive_file}"
+
+recipe.objcopy.eep.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.objcopy.eep.flags} {compiler.objcopy.eep.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.eep"
+
+recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf"  "{build.path}/{build.project_name}.hex"
+
+### recipe.objcopy.dump.pattern="{compiler.path}{compiler.dump.cmd}" {compiler.dump.flags} {compiler.dump.extra_flags} "{build.path}/{build.project_name}.elf" >  "{build.path}/{build.project_name}.dump"
+
+recipe.output.tmp_file={build.project_name}.hex
+recipe.output.save_file={build.project_name}.{build.variant}.hex
+
+
+
+recipe.size.pattern="{compiler.size.path}/{compiler.size.cmd}"  "{build.path}/{build.project_name}.hex"
+recipe.size.regex=Total\s+([0-9]+).*
+
+preproc.includes.flags=-w -x c++ -M -MG -MP
+recipe.preproc.includes="{compiler.path}{compiler.cpp.cmd}"  {compiler.cpp.flags} {preproc.includes.flags} -DARDUINO={runtime.ide.version} -D{build.board} -DARDUINO_ARCH_{build.arch} {compiler.define}  -I{build.path}/sketch {includes} "{source_file}"
+
+preproc.macros.flags= -w -x c++ -E -CC
+preprocessed_file_path=NUL
+
+recipe.preproc.macros="{compiler.path}{compiler.c.cmd}" {preproc.macros.flags} -DARDUINO={runtime.ide.version} -D{build.board} -DARDUINO_ARCH_{build.arch} {compiler.define}  -I{build.path}/sketch {includes} "{source_file}" -o "{preprocessed_file_path}"
+
+ 
+###############################################################################
+# up loader
+###############################################################################
+
+tools.GRV3000D_upload.cmd=GRV3000D_Config
+tools.GRV3000D_upload.path={runtime.tools.GRV3000D_upload.path}
+
+tools.GRV3000D_upload.upload.params.verbose=
+tools.GRV3000D_upload.upload.params.quiet=
+tools.GRV3000D_upload.upload.protocol=UART
+
+
+tools.GRV3000D_upload.upload.pattern="{path}/{cmd}" --reset --run --port={serial.port} --baud={upload.speed} "--image={build.path}/{build.project_name}.hex"

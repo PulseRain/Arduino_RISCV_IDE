@@ -1,0 +1,24 @@
+############################################################
+# PulseRain RISC V
+############################################################
+
+
+STEP.name=GRV3000D STEP Board (Intel 10CL016YU256C8G)
+
+STEP.platform=GRV3000D
+STEP.build.board=_BOARD_STEP_CYC10_
+
+STEP.build.extra_flags = -march=rv32i -mabi=ilp32 
+STEP.compiler.c.extra_flags= 
+STEP.compiler.cpp.extra_flags= 
+STEP.ld.extra_flags = 
+
+
+STEP.upload.maximum_size=49152
+STEP.upload.speed=115200
+STEP.upload.tool=GRV3000D_upload
+
+STEP.build.mcu=GRV3000D
+STEP.build.core=GRV3000D
+STEP.build.variant=generic
+
