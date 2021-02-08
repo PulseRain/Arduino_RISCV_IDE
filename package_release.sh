@@ -20,7 +20,7 @@
 
 Reindeer_version=1.4.1
 Rattlesnake_version=1.3.4
-GRV3000D_version=1.1.1
+GRV3000D_version=1.1.2
 
 Reindeer_compiler_version=1.3.0
 Reindeer_upload_version=2.1.0
@@ -251,7 +251,7 @@ echo '          "help": {'
 echo '            "online": "http://riscv.us"'
 echo '          },'
 echo '          "boards": ['
-echo '            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"}'
+echo '            {"name": "GRV3000D STEP Board (Intel 10CL016YU256C8G)"}'
 echo '          ],'
 echo '          "toolsDependencies": ['
 echo '            {'
