@@ -20,12 +20,17 @@
 
 Reindeer_version=1.4.1
 Rattlesnake_version=1.3.4
+GRV3000D_version=1.1.0
 
 Reindeer_compiler_version=1.3.0
 Reindeer_upload_version=2.1.0
 
+GRV3000D_compiler_version=1.3.0
+GRV3000D_upload_version=2.1.0
+
 Rattlesnake_compiler_version=1.1.0
 Rattlesnake_upload_version=1.1.0
+
 
 hex_total_size_version=1.0.0
 
@@ -42,6 +47,20 @@ else
 fi
 sha256_Reindeer=$(sha256sum ./package/$Reindeer_pkg_name | awk '{print $1}')
 size_Reindeer=$(stat -c %s ./package/$Reindeer_pkg_name)
+
+
+GRV3000D_pkg_name="GRV3000D_"
+GRV3000D_pkg_name+=$GRV3000D_version
+GRV3000D_pkg_name+=".tar.gz"
+if [ -f "./package/$GRV3000D_pkg_name" ]
+then
+    echo "=====================> $GRV3000D_pkg_name already exists!"
+else
+    cd ./PulseRain_RISCV/GRV3000D;tar zcf ../../package/$GRV3000D_pkg_name .;cd ../..
+fi
+sha256_GRV3000D=$(sha256sum ./package/$GRV3000D_pkg_name | awk '{print $1}')
+size_GRV3000D=$(stat -c %s ./package/$GRV3000D_pkg_name)
+
 
 
 Rattlesnake_pkg_name="Rattlesnake_"
@@ -72,6 +91,20 @@ sha256_Reindeer_compiler=$(sha256sum ./package/$Reindeer_compiler_name | awk '{p
 size_Reindeer_compiler=$(stat -c %s ./package/$Reindeer_compiler_name)
 
 
+GRV3000D_compiler_name="GRV3000D_compiler_"
+GRV3000D_compiler_name+=$GRV3000D_compiler_version
+GRV3000D_compiler_name+=".tar.gz"
+
+if [ -f "./package/$GRV3000D_compiler_name" ]
+then
+    echo "=====================> $GRV3000D_compiler_name already exists!"
+else
+    cd ./GRV3000D_compiler;tar zcf ../package/$GRV3000D_compiler_name .;cd ..
+fi
+sha256_GRV3000D_compiler=$(sha256sum ./package/$GRV3000D_compiler_name | awk '{print $1}')
+size_GRV3000D_compiler=$(stat -c %s ./package/$GRV3000D_compiler_name)
+
+
 Reindeer_upload_name="Reindeer_upload_"
 Reindeer_upload_name+=$Reindeer_upload_version
 Reindeer_upload_name+=".tar.gz"
@@ -85,6 +118,19 @@ fi
 sha256_Reindeer_upload=$(sha256sum ./package/$Reindeer_upload_name | awk '{print $1}')
 size_Reindeer_upload=$(stat -c %s ./package/$Reindeer_upload_name)
 
+
+GRV3000D_upload_name="GRV3000D_upload_"
+GRV3000D_upload_name+=$GRV3000D_upload_version
+GRV3000D_upload_name+=".tar.gz"
+
+if [ -f "./package/$GRV3000D_upload_name" ]
+then
+    echo "=====================> $GRV3000D_upload_name already exists!"
+else
+    cd ./GRV3000D_upload;tar zcf ../package/$GRV3000D_upload_name .;cd ..
+fi
+sha256_GRV3000D_upload=$(sha256sum ./package/$GRV3000D_upload_name | awk '{print $1}')
+size_GRV3000D_upload=$(stat -c %s ./package/$GRV3000D_upload_name)
 
 
 Rattlesnake_compiler_name="Rattlesnake_compiler_"
@@ -190,6 +236,47 @@ echo '          ]'
 echo '        },'       
 
 #############################################################################
+# GRV3000D_
+#############################################################################
+echo '       {'
+echo '          "name": "PulseRain GRV3000D",'
+echo '          "architecture": "GRV3000D",'
+echo "          \"version\": \"$GRV3000D_version\","
+echo '          "category": "Contributed",'
+echo "          \"url\": \"https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/$GRV3000D_pkg_name\","
+echo "          \"archiveFileName\": \"$GRV3000D_pkg_name\","
+echo "          \"checksum\": \"SHA-256:$sha256_GRV3000D\","
+echo "          \"size\": \"$size_GRV3000D\","
+echo '          "help": {'
+echo '            "online": "http://riscv.us"'
+echo '          },'
+echo '          "boards": ['
+echo '            {"name": "STEP CYC10 Board (Intel 10CL016YU256C8G)"}'
+echo '          ],'
+echo '          "toolsDependencies": ['
+echo '            {'
+echo '              "packager": "PulseRain_RISCV",'
+echo "              \"version\": \"$GRV3000D_upload_version\","
+echo '              "name": "GRV3000D_upload"'
+echo '            },'
+
+echo '            {'
+echo '              "packager": "PulseRain_RISCV",'
+echo "              \"version\": \"$GRV3000D_compiler_version\","
+echo '              "name": "GRV3000D_compiler"'
+echo '            },'
+
+echo '            {'
+echo '              "packager": "PulseRain_RISCV",'
+echo "              \"version\": \"$hex_total_size_version\","
+echo '              "name": "hex_total_size"'
+echo '            }'
+
+echo '          ]'
+echo '        },'       
+
+
+#############################################################################
 # Rattlesnake
 #############################################################################
 echo '       {'
@@ -259,6 +346,34 @@ echo '          ]'
 echo '        },'
 
 echo '        {'
+echo "          \"version\": \"$GRV3000D_upload_version\","
+echo '          "name": "GRV3000D_upload",'
+echo '          "systems": ['
+echo '            {'
+echo '              "host": "i686-mingw32",'
+echo "              \"url\": \"https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/$GRV3000D_upload_name\","
+echo "              \"archiveFileName\": \"$GRV3000D_upload_name\","
+echo "              \"checksum\": \"SHA-256:$sha256_GRV3000D_upload\","
+echo "              \"size\": \"$size_GRV3000D_upload\""
+echo '            }'
+echo '          ]'
+echo '        },'
+
+echo '        {'
+echo "          \"version\": \"$GRV3000D_compiler_version\","
+echo '          "name": "GRV3000D_compiler",'
+echo '          "systems": ['
+echo '            {'
+echo '              "host": "i686-mingw32",'
+echo "              \"url\": \"https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/$GRV3000D_compiler_name\","
+echo "              \"archiveFileName\": \"$GRV3000D_compiler_name\","
+echo "              \"checksum\": \"SHA-256:$sha256_GRV3000D_compiler\","
+echo "              \"size\": \"$size_GRV3000D_compiler\""
+echo '            }'
+echo '          ]'        
+echo '        },'
+
+echo '        {'
 echo "          \"version\": \"$Rattlesnake_upload_version\","
 echo '          "name": "Rattlesnake_upload",'
 echo '          "systems": ['
@@ -285,7 +400,6 @@ echo "              \"size\": \"$size_Rattlesnake_compiler\""
 echo '            }'
 echo '          ]'        
 echo '        },'
-
 
 echo '        {'
 echo "          \"version\": \"$hex_total_size_version\","
