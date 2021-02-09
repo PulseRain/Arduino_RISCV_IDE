@@ -12,6 +12,39 @@
         {
           "name": "PulseRain GRV3000D",
           "architecture": "GRV3000D",
+          "version": "1.2.0",
+          "category": "Contributed",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/GRV3000D_1.2.0.tar.gz",
+          "archiveFileName": "GRV3000D_1.2.0.tar.gz",
+          "checksum": "SHA-256:eb6fc3ccac1e5ae3fa01929015dcf01b747ae25b2fdf4dc7039e16fe05b93b36",
+          "size": "18516",
+          "help": {
+            "online": "http://riscv.us"
+          },
+          "boards": [
+            {"name": "GRV3000D STEP Board (Intel 10CL016YU256C8G)"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "2.2.0",
+              "name": "GRV3000D_upload"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.3.2",
+              "name": "GRV3000D_compiler"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "hex_total_size"
+            }
+          ]
+        },
+        {
+          "name": "PulseRain GRV3000D",
+          "architecture": "GRV3000D",
           "version": "1.1.3",
           "category": "Contributed",
           "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/GRV3000D_1.1.3.tar.gz",
@@ -945,6 +978,19 @@
         }
       ],
       "tools": [
+        {
+          "version": "2.2.0",
+          "name": "GRV3000D_upload",
+          "systems": [
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/GRV3000D_upload_2.2.0.tar.gz",
+              "archiveFileName": "GRV3000D_upload_2.2.0.tar.gz",
+              "checksum": "SHA-256:cbbcf9af305cecd1d06cc36d46492b6e5aa2eb51736fbd0f43f51bbdac97d19c",
+              "size": "6038769"
+            }
+          ]
+        },
         {
           "version": "2.1.0",
           "name": "GRV3000D_upload",
