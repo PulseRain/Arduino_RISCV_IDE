@@ -22,3 +22,25 @@ STEP.build.mcu=GRV3000D
 STEP.build.core=GRV3000D
 STEP.build.variant=generic
 
+
+
+
+
+ARTY.name=GRV3000D ARTY A7-100T Board (Xilinx XC7A100TCSG324-1)
+
+ARTY.platform=GRV3000D
+ARTY.build.board=_BOARD_ARTY_A7_100T_
+
+ARTY.build.extra_flags = -march=rv32i -mabi=ilp32 
+ARTY.compiler.c.extra_flags= 
+ARTY.compiler.cpp.extra_flags= 
+ARTY.ld.extra_flags = 
+
+
+ARTY.upload.maximum_size=131072
+ARTY.upload.speed=115200
+ARTY.upload.tool=GRV3000D_upload
+
+ARTY.build.mcu=GRV3000D
+ARTY.build.core=GRV3000D
+ARTY.build.variant=generic
