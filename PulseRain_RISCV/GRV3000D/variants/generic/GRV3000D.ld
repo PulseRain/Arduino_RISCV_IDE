@@ -237,4 +237,9 @@ SECTIONS
   .debug_addr     0 : { *(.debug_addr) }
   .gnu.attributes 0 : { KEEP (*(.gnu.attributes)) }
   /DISCARD/ : { *(.note.GNU-stack) *(.gnu_debuglink) *(.gnu.lto_*) }
+  
+  .dsp_top    0xC0007800 : { *(.dsp_top) }
+  .dsp_bottom 0xC0008000 : { *(.dsp_bottom) }
+  
+  
 }
