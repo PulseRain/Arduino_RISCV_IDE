@@ -18,9 +18,9 @@
 #
 ###############################################################################
 
-Reindeer_version=1.4.1
+Reindeer_version=1.4.2
 Rattlesnake_version=1.3.4
-GRV3000D_version=1.2.2
+GRV3000D_version=1.2.3
 
 Reindeer_compiler_version=1.3.0
 Reindeer_upload_version=2.1.0
@@ -253,6 +253,7 @@ echo '          },'
 echo '          "boards": ['
 echo '            {"name": "GRV3000D STEP Board (Intel 10CL016YU256C8G)"},'
 echo '            {"name": "GRV3000D ARTY A7-100T Board (Xilinx XC7A100TCSG324-1)"}'
+echo '            {"name": "GRV3000D NEXYS A7-100T Board (Xilinx XC7A100TCSG324-1)"}'
 echo '          ],'
 echo '          "toolsDependencies": ['
 echo '            {'
