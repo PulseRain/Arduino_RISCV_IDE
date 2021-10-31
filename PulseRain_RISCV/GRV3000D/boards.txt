@@ -44,3 +44,23 @@ ARTY.upload.tool=GRV3000D_upload
 ARTY.build.mcu=GRV3000D
 ARTY.build.core=GRV3000D
 ARTY.build.variant=generic
+
+
+NEXYS.name=GRV3000D NEXYS A7-100T Board (Xilinx XC7A100TCSG324-1)
+
+NEXYS.platform=GRV3000D
+NEXYS.build.board=_BOARD_NEXYS_A7_100T_
+
+NEXYS.build.extra_flags = -march=rv32i -mabi=ilp32 
+NEXYS.compiler.c.extra_flags= 
+NEXYS.compiler.cpp.extra_flags= 
+NEXYS.ld.extra_flags = 
+
+
+NEXYS.upload.maximum_size=131072
+NEXYS.upload.speed=115200
+NEXYS.upload.tool=GRV3000D_upload
+
+NEXYS.build.mcu=GRV3000D
+NEXYS.build.core=GRV3000D
+NEXYS.build.variant=generic
