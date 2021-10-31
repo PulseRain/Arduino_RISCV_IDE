@@ -62,7 +62,7 @@ volatile uint8_t* const REG_GPIO_OUT = (uint8_t*)0x20000030;
 #define GPIO_P3  (REG_GPIO[3])
 
 //============================================================================================
-// I2C 
+// I2C
 //============================================================================================
 
 volatile uint8_t* const REG_I2C_CSR  = (uint8_t*) 0x20000024;
@@ -89,5 +89,10 @@ constexpr uint32_t MCAUSE_PERIPHERAL_MASK  = 1 << MCAUSE_PERIPHERAL;
 
 constexpr uint32_t MSTATUS_MIE_BIT         = 1 << 3;
 
+
+//============================================================================================
+// Rotary Encoder
+//============================================================================================
+volatile uint32_t* const REG_ROTARY_ENCODER = (uint32_t*)0x20000030;
 
 #endif
