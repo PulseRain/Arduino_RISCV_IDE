@@ -93,6 +93,23 @@ extern void detachInterrupt (uint8_t int_index);
 
 extern void timer_advance_ (uint32_t count);
 
-
+extern uint8_t isDigit(uint8_t c);
+extern uint8_t isAscii(uint8_t c);
+extern uint8_t isAlpha(uint8_t c);
+extern uint8_t isAlphaNumeric(uint8_t c);
+extern uint8_t isControl(uint8_t c);
+extern uint8_t isGraph (uint8_t c);
+extern uint8_t isHexadecimalDigit(uint8_t c);
+extern uint8_t toLowerCase(uint8_t c);
+extern uint8_t toUpperCase(uint8_t c);
+extern uint8_t isLowerCase(uint8_t c);
+extern uint8_t isUpperCase(uint8_t c);
+extern uint8_t isPrintable(uint8_t c);
+extern uint8_t isPunct(uint8_t c);
+extern uint8_t isSpace(uint8_t c);
+extern uint8_t isWhitespace(uint8_t c);
+extern uint8_t toAscii(uint8_t c);
+extern uint8_t digitalRead(uint8_t pin);
+extern void digitalWrite(uint8_t pin, uint8_t value);
 
 #endif
