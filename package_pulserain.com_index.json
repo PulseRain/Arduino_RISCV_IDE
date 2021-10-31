@@ -23,7 +23,7 @@
           },
           "boards": [
             {"name": "GRV3000D STEP Board (Intel 10CL016YU256C8G)"},
-            {"name": "GRV3000D ARTY A7-100T Board (Xilinx XC7A100TCSG324-1)"}
+            {"name": "GRV3000D ARTY A7-100T Board (Xilinx XC7A100TCSG324-1)"},
             {"name": "GRV3000D NEXYS A7-100T Board (Xilinx XC7A100TCSG324-1)"}
           ],
           "toolsDependencies": [
