@@ -3,7 +3,7 @@
 ############################################################
 
 name=PulseRain RISC-V (GRV3000D)
-version=1.2.2
+version=1.2.4
 
 
 compiler.path           = {runtime.tools.GRV3000D_compiler.path}/RISCV_Embedded_GCC/bin/

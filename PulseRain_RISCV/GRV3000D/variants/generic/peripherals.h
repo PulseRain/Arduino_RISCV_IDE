@@ -95,4 +95,13 @@ constexpr uint32_t MSTATUS_MIE_BIT         = 1 << 3;
 //============================================================================================
 volatile uint32_t* const REG_ROTARY_ENCODER = (uint32_t*)0x20000030;
 
+//============================================================================================
+// CODEC (CS5343 and CS4344)
+//============================================================================================
+volatile uint32_t* const REG_CODEC_AD_STATUS_REG = (uint32_t*) 0x20000040;
+volatile uint32_t* const REG_CODEC_AD_DATA_REG   = (uint32_t*) 0x20000044;
+volatile uint32_t* const REG_CODEC_DA_STATUS_REG = (uint32_t*) 0x20000048;
+volatile uint32_t* const REG_CODEC_DA_DATA_REG   = (uint32_t*) 0x2000004C;
+
+
 #endif

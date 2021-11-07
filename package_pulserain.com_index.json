@@ -12,6 +12,41 @@
         {
           "name": "PulseRain GRV3000D",
           "architecture": "GRV3000D",
+          "version": "1.2.4",
+          "category": "Contributed",
+          "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/GRV3000D_1.2.4.tar.gz",
+          "archiveFileName": "GRV3000D_1.2.4.tar.gz",
+          "checksum": "SHA-256:5322470f3995029d976ad25182fdd00e606be62d21911577ebe47b961cf35d15",
+          "size": "20219",
+          "help": {
+            "online": "http://riscv.us"
+          },
+          "boards": [
+            {"name": "GRV3000D STEP Board (Intel 10CL016YU256C8G)"},
+            {"name": "GRV3000D ARTY A7-100T Board (Xilinx XC7A100TCSG324-1)"},
+            {"name": "GRV3000D NEXYS A7-100T Board (Xilinx XC7A100TCSG324-1)"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "2.3.0",
+              "name": "GRV3000D_upload"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.3.2",
+              "name": "GRV3000D_compiler"
+            },
+            {
+              "packager": "PulseRain_RISCV",
+              "version": "1.0.0",
+              "name": "hex_total_size"
+            }
+          ]
+        },
+        {
+          "name": "PulseRain GRV3000D",
+          "architecture": "GRV3000D",
           "version": "1.2.3",
           "category": "Contributed",
           "url": "https://github.com/PulseRain/Arduino_RISCV_IDE/raw/master/package/GRV3000D_1.2.3.tar.gz",

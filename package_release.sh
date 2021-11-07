@@ -20,7 +20,7 @@
 
 Reindeer_version=1.4.2
 Rattlesnake_version=1.3.4
-GRV3000D_version=1.2.3
+GRV3000D_version=1.2.4
 
 Reindeer_compiler_version=1.3.0
 Reindeer_upload_version=2.1.0
