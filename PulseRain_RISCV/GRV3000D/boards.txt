@@ -51,7 +51,7 @@ NEXYS.name=GRV3000D NEXYS A7-100T Board (Xilinx XC7A100TCSG324-1)
 NEXYS.platform=GRV3000D
 NEXYS.build.board=_BOARD_NEXYS_A7_100T_
 
-NEXYS.build.extra_flags = -march=rv32i -mabi=ilp32 
+NEXYS.build.extra_flags = -march=rv32imaf -mabi=ilp32f
 NEXYS.compiler.c.extra_flags= 
 NEXYS.compiler.cpp.extra_flags= 
 NEXYS.ld.extra_flags = 
